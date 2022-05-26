@@ -5,7 +5,7 @@ namespace Domain
     public class Contact
     {
         [Key]
-        public string Username { get; set; }
+        public string ContactUsername { get; set; }
 
         [Required]
         public string Nickname { get; set; }

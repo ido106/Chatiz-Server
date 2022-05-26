@@ -34,7 +34,7 @@ namespace WebApp.Controllers
             }
 
             var contact = await _context.Contact
-                .FirstOrDefaultAsync(m => m.Username == id);
+                .FirstOrDefaultAsync(m => m.ContactUsername == id);
             if (contact == null)
             {
                 return NotFound();
@@ -88,7 +88,7 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Username,Nickname,LastSeen,Server,ImgSrc")] Contact contact)
         {
-            if (id != contact.Username)
+            if (id != contact.ContactUsername)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace WebApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ContactExists(contact.Username))
+                    if (!ContactExists(contact.ContactUsername))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace WebApp.Controllers
             }
 
             var contact = await _context.Contact
-                .FirstOrDefaultAsync(m => m.Username == id);
+                .FirstOrDefaultAsync(m => m.ContactUsername == id);
             if (contact == null)
             {
                 return NotFound();
@@ -155,7 +155,7 @@ namespace WebApp.Controllers
 
         private bool ContactExists(string id)
         {
-          return _context.Contact.Any(e => e.Username == id);
+          return _context.Contact.Any(e => e.ContactUsername == id);
         }
     }
 }
