@@ -11,7 +11,7 @@ using Repository;
 namespace Repository.Migrations
 {
     [DbContext(typeof(WebAppContext))]
-    [Migration("20220526195807_Initial")]
+    [Migration("20220526201542_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
