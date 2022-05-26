@@ -12,6 +12,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Allow all",
+        builder =>
+        {
+            builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+        });
+});
 
 var app = builder.Build();
 
@@ -23,12 +34,14 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseCors("Allow All");
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
+
 app.UseStaticFiles();
 
 app.UseRouting();
-
 app.UseAuthorization();
 
 app.MapControllerRoute(

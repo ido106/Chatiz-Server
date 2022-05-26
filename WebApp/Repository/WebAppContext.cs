@@ -14,7 +14,7 @@ namespace Repository
         //{
         //}
 
-        private const string connectionString = "server=localhost;port=7092;database=WebApp;user=root;password=iddo";
+        private const string connectionString = "server=localhost;port=7092;database=WebAppDB;user=root;password=iddo";
 
         /**
         public WebAppContext()
