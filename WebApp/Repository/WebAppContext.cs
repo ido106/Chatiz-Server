@@ -16,6 +16,7 @@ namespace Repository
 
         private const string connectionString = "server=localhost;port=7092;database:WebApp;user=root;password:iddo";
 
+        
         public WebAppContext()
         {
             Database.EnsureCreated();
@@ -32,6 +33,7 @@ namespace Repository
             modelBuilder.Entity<Contact>().HasKey(e => e.Username);
         }
         **/
+        
 
         public DbSet<User> User { get; set; }
 
