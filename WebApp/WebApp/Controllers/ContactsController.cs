@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Repository;
 using Domain;
+using Repository;
 
 namespace WebApp.Controllers
 {
@@ -54,7 +54,7 @@ namespace WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Username,Nickname,LastSeen,Server,ImgSrc")] Contact contact)
+        public async Task<IActionResult> Create([Bind("ContactUsername,Nickname,LastSeen,Server,ImgSrc")] Contact contact)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Username,Nickname,LastSeen,Server,ImgSrc")] Contact contact)
+        public async Task<IActionResult> Edit(string id, [Bind("ContactUsername,Nickname,LastSeen,Server,ImgSrc")] Contact contact)
         {
             if (id != contact.ContactUsername)
             {
