@@ -12,6 +12,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<UserService>();
+builder.Services.AddTransient<MessageService>();
+builder.Services.AddTransient<ContactService>();
 
 var app = builder.Build();
 

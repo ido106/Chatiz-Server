@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Domain;
 using Repository;
 using Microsoft.AspNetCore.Authorization;
+using Services;
 
 namespace WebApi.Controllers
 {
@@ -16,11 +17,12 @@ namespace WebApi.Controllers
     [Authorize]
     public class ContactsController : ControllerBase
     {
-        private readonly WebAppContext _context;
+        //private readonly WebAppContext _context;
+        private ContactService _service;
 
-        public ContactsController(WebAppContext context)
+        public ContactsController(ContactService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: Contacts

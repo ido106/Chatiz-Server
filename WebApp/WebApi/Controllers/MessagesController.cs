@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Domain;
 using Repository;
 using Microsoft.AspNetCore.Authorization;
+using Services;
 
 namespace WebApi.Controllers
 {
@@ -16,11 +17,12 @@ namespace WebApi.Controllers
     [Authorize]
     public class MessagesController : ControllerBase
     {
-        private readonly WebAppContext _context;
+        // private readonly WebAppContext _context;
+        private MessageService _service;
 
-        public MessagesController(WebAppContext context)
+        public MessagesController(MessageService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: Messages

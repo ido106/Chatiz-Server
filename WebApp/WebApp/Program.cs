@@ -26,6 +26,8 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddTransient<UserService>();
+builder.Services.AddTransient<MessageService>();
+builder.Services.AddTransient<ContactService>();
 
 var app = builder.Build();
 

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Domain;
 using Repository;
 using Microsoft.AspNetCore.Authorization;
+using Services;
 
 namespace WebApi.Controllers
 {
@@ -16,11 +17,12 @@ namespace WebApi.Controllers
     [Authorize]
     public class UsersController : ControllerBase
     {
-        private readonly WebAppContext _context;
+        //private readonly WebAppContext _context;
+        private UserService _service;
 
-        public UsersController(WebAppContext context)
+        public UsersController(UserService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: Users
