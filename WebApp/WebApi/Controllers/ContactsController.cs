@@ -11,8 +11,10 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     [Authorize]
-    public class ContactsController : Controller
+    public class ContactsController : ControllerBase
     {
         private readonly WebAppContext _context;
 
@@ -24,7 +26,9 @@ namespace WebApi.Controllers
         // GET: Contacts
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Contact.ToListAsync());
+              return _context.Contact != null ? 
+                          View(await _context.Contact.ToListAsync()) :
+                          Problem("Entity set 'WebAppContext.Contact'  is null.");
         }
 
         // GET: Contacts/Details/5
@@ -157,7 +161,7 @@ namespace WebApi.Controllers
 
         private bool ContactExists(string id)
         {
-          return _context.Contact.Any(e => e.ContactUsername == id);
+          return (_context.Contact?.Any(e => e.ContactUsername == id)).GetValueOrDefault();
         }
     }
 }

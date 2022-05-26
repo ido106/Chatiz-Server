@@ -11,8 +11,10 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     [Authorize]
-    public class MessagesController : Controller
+    public class MessagesController : ControllerBase
     {
         private readonly WebAppContext _context;
 
@@ -24,7 +26,9 @@ namespace WebApi.Controllers
         // GET: Messages
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Message.ToListAsync());
+              return _context.Message != null ? 
+                          View(await _context.Message.ToListAsync()) :
+                          Problem("Entity set 'WebAppContext.Message'  is null.");
         }
 
         // GET: Messages/Details/5
@@ -157,7 +161,7 @@ namespace WebApi.Controllers
 
         private bool MessageExists(int id)
         {
-          return _context.Message.Any(e => e.Id == id);
+          return (_context.Message?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

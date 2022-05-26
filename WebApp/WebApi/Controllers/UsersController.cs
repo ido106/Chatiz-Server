@@ -11,8 +11,10 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     [Authorize]
-    public class UsersController : Controller
+    public class UsersController : ControllerBase
     {
         private readonly WebAppContext _context;
 
@@ -24,7 +26,9 @@ namespace WebApi.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
-              return View(await _context.User.ToListAsync());
+              return _context.User != null ? 
+                          View(await _context.User.ToListAsync()) :
+                          Problem("Entity set 'WebAppContext.User'  is null.");
         }
 
         // GET: Users/Details/5
@@ -157,7 +161,7 @@ namespace WebApi.Controllers
 
         private bool UserExists(string id)
         {
-          return _context.User.Any(e => e.Username == id);
+          return (_context.User?.Any(e => e.Username == id)).GetValueOrDefault();
         }
     }
 }

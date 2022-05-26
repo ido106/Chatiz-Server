@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Repository;
+using Services;
 
 var builder = WebApplication.CreateBuilder(args);
 //builder.Services.AddDbContext<WebAppContext>(options =>
@@ -23,6 +24,8 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader();
         });
 });
+
+builder.Services.AddTransient<UserService>();
 
 var app = builder.Build();
 
