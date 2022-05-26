@@ -261,3 +261,9 @@ C:\Users\Ido\Documents\GitHub\Advanced2_New\WebApp\WebApp\obj\Debug\net6.0\refin
 C:\Users\Ido\Documents\GitHub\Advanced2_New\WebApp\WebApp\obj\Debug\net6.0\WebApp.pdb
 C:\Users\Ido\Documents\GitHub\Advanced2_New\WebApp\WebApp\obj\Debug\net6.0\WebApp.genruntimeconfig.cache
 C:\Users\Ido\Documents\GitHub\Advanced2_New\WebApp\WebApp\obj\Debug\net6.0\ref\WebApp.dll
+C:\Users\Ido\Documents\GitHub\Advanced2_New\WebApp\WebApp\bin\Debug\net6.0\Domain.dll
+C:\Users\Ido\Documents\GitHub\Advanced2_New\WebApp\WebApp\bin\Debug\net6.0\Domain.pdb
+C:\Users\Ido\Documents\GitHub\Advanced2_New\WebApp\WebApp\bin\Debug\net6.0\MySqlConnector.dll
+C:\Users\Ido\Documents\GitHub\Advanced2_New\WebApp\WebApp\bin\Debug\net6.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\Users\Ido\Documents\GitHub\Advanced2_New\WebApp\WebApp\bin\Debug\net6.0\Repository.dll
+C:\Users\Ido\Documents\GitHub\Advanced2_New\WebApp\WebApp\bin\Debug\net6.0\Repository.pdb

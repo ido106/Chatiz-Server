@@ -14,14 +14,26 @@ namespace Repository
         //{
         //}
 
-        private const string connectionString = "server=localhost;port="
+        private const string connectionString = "server=localhost;port=7092;database:WebApp;user=root;password:iddo";
 
         public WebAppContext()
         {
             Database.EnsureCreated();
         }
 
-        public DbSet<User>? User { get; set; }
+        protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseMySql(connectionString, MariaDbServerVersion.AutoDetect(connectionString));
+        }
+
+        /**
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Contact>().HasKey(e => e.Username);
+        }
+        **/
+
+        public DbSet<User> User { get; set; }
 
         public DbSet<Contact> Contact { get; set; }
 
