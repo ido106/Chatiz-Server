@@ -21,6 +21,10 @@ namespace Services
             return _context.User.ToList();
         }
 
+        public User Get(string username)
+        {
+            return _context.User.FirstOrDefault(x => x.Username == username);
+        }
 
         public void Add(User user)
         {
@@ -30,42 +34,43 @@ namespace Services
 
         public bool Exist(string username)
         {
-            var q = _context.User.Where(x => x.Username.Equals(username));
-            if (q.Count() > 0)
-            {
-                return true;
-            }
-            return false;
+           var q = _context.User.Where(x => x.Username.Equals(username));
+           return q.Count() > 0;
         }
 
-        public List<Contact> GetContacts(User user)
+        public List<Contact> GetContacts(string username)
         {
-            throw new NotImplementedException();
+            User user = Get(username);
+            if (user == null) return null;
+            return user.Contacts;
         }
 
-        public Contact GetContact(User user, string contact_name)
+        public Contact GetContact(string username, string contact_name)
         {
-            throw new NotImplementedException();
+            List<Contact> all_contacts = GetContacts(username);
+            if (all_contacts == null) return null;
+            Contact contact = all_contacts.FirstOrDefault(x => x.ContactUsername == contact_name);
+            return contact;
         }
 
-        public User getContactByUser(User user, string contact_name)
+        public void AddContact(string username, string contact_name)
         {
-            throw new NotImplementedException();
+            User user = Get(username);
+            Contact contact = new (contact_name);
+            user.Contacts.Add(contact);
+            _context.SaveChanges();
         }
 
-        public void AddContact(User user, string contact_name)
+        public void DeleteContact(string username, string contact_name)
         {
-            throw new NotImplementedException();
+            User user = Get(username);
+            Contact contact = GetContact(username, contact_name);
+
+            user.Contacts.Remove(contact);
+
+            _context.SaveChanges();
         }
 
-        public void DeleteContact(User user, string contact_name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public User Get(string username)
-        {
-            throw new NotImplementedException();
-        }
+    
     }
 }

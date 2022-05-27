@@ -7,16 +7,15 @@ using Domain;
 
 namespace Services
 {
-    interface IUserService
+    public interface IUserService
     {
-        public void Add(User user);
+        public void Add(User usern);
         public bool Exist(string username);
         public User Get(string username);
-        public List<Contact> GetContacts(User user);
-        public Contact GetContact(User user, string contact_name);
-        public User getContactByUser(User user, string contact_name);
-        public void AddContact(User user, string contact_name);
-        public void DeleteContact(User user, string contact_name);
+        public List<Contact> GetContacts(string username);
+        public Contact GetContact(string username, string contact_name);
+        public void AddContact(string username, string contact_name);
+        public void DeleteContact(string username, string contact_name);
         
     }
 }

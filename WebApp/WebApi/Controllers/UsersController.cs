@@ -13,7 +13,7 @@ using Services;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [Authorize]
     public class UsersController : ControllerBase
     {

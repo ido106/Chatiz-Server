@@ -7,6 +7,7 @@ namespace Domain
         [Key]
         public string Username { get; set; }
 
+        [Required]
         public string Nickname { get; set; }
 
         [Required]
