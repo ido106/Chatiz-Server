@@ -80,7 +80,19 @@ namespace Services
             await _context.SaveChangesAsync();
             return true;
         }
+        public async Task<List<T>> GetContactsInfoSpecific(string username, string contactSpecific)
+        {
+            if (username == null) return null;
+            List<Contact> contacts = await GetContacts(username);
 
+            foreach (Contact item in contacts)
+            {
+                if (contactSpecific == item.ContactUsername)
+                    return await Get(contactSpecific).ToList();
+
+            }
+
+        }
 
         public async Task<List<User>> GetContactsInfo(string username)
         {

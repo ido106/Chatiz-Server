@@ -31,6 +31,21 @@ namespace WebApi.Controllers
             _service = service;
             _config = config;
         }
+        [HttpGet("contacts/{contact}")]
+        [Authorize]
+        public async Task<IActionResult> IndexSpecific(string contact)
+        {
+            string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
+            if (username == null) return NotFound();
+
+            User user = await _service.Get(username);
+            if (user == null) return NotFound();
+
+
+            // todo is return value good ?
+
+            return (IActionResult)await _service.GetContactsInfoSpecific(username, contact);
+        }
 
         // GET: Users
         [HttpGet("contacts")]
