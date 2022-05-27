@@ -14,8 +14,8 @@ namespace Services
         public User Get(string username);
         public List<Contact> GetContacts(string username);
         public Contact GetContact(string username, string contact_name);
-        public void AddContact(string username, string contact_name);
-        public void DeleteContact(string username, string contact_name);
+        public bool AddContact(string username, string contact_name);
+        public bool DeleteContact(string username, string contact_name);
         
     }
 }

@@ -1,9 +1,13 @@
 {
   "ExpandedNodes": [
     "",
+    "\\Domain",
+    "\\Services",
+    "\\WebApi",
+    "\\WebApi\\Controllers",
     "\\WebApp",
+    "\\WebApp\\Controllers",
     "\\WebApp\\Views"
   ],
-  "SelectedNode": "\\WebApp.sln",
   "PreviewInSolutionExplorer": false
 }

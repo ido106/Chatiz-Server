@@ -16,6 +16,7 @@ namespace Services
         {
             _context = context;
         }
+
         public List<User> GetAll()
         {
             return _context.User.ToList();
@@ -53,22 +54,30 @@ namespace Services
             return contact;
         }
 
-        public void AddContact(string username, string contact_name)
+        public bool AddContact(string username, string contact_name)
         {
             User user = Get(username);
+            if(user == null) return false;
+
+            if(Get(contact_name) == null) return false;
+
             Contact contact = new (contact_name);
+
             user.Contacts.Add(contact);
             _context.SaveChanges();
+            return true;
         }
 
-        public void DeleteContact(string username, string contact_name)
+        public bool DeleteContact(string username, string contact_name)
         {
             User user = Get(username);
+            if(user == null || username.Equals(contact_name)) return false;
             Contact contact = GetContact(username, contact_name);
-
+            if(contact == null) return false;
             user.Contacts.Remove(contact);
-
             _context.SaveChanges();
+
+            return true;
         }
 
     

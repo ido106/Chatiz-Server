@@ -38,14 +38,14 @@ namespace WebApi.Controllers
         {
             if (id == null || _context.User == null)
             {
-                return NotFound();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
 
             var user = await _context.User
                 .FirstOrDefaultAsync(m => m.Username == id);
             if (user == null)
             {
-                return NotFound();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
 
             return View(user);
@@ -78,13 +78,13 @@ namespace WebApi.Controllers
         {
             if (id == null || _context.User == null)
             {
-                return NotFound();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
 
             var user = await _context.User.FindAsync(id);
             if (user == null)
             {
-                return NotFound();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
             return View(user);
         }
@@ -98,7 +98,7 @@ namespace WebApi.Controllers
         {
             if (id != user.Username)
             {
-                return NotFound();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
 
             if (ModelState.IsValid)
@@ -112,7 +112,7 @@ namespace WebApi.Controllers
                 {
                     if (!UserExists(user.Username))
                     {
-                        return NotFound();
+                        return new StatusCodeResult(StatusCodes.Status500InternalServerError);
                     }
                     else
                     {
@@ -129,14 +129,14 @@ namespace WebApi.Controllers
         {
             if (id == null || _context.User == null)
             {
-                return NotFound();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
 
             var user = await _context.User
                 .FirstOrDefaultAsync(m => m.Username == id);
             if (user == null)
             {
-                return NotFound();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
 
             return View(user);

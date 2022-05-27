@@ -1,9 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
+using System;
 namespace Domain
 {
     public class Message
     {
+        public Message(int id, string type, string data, bool isMine)
+        {
+            Id = id;
+            Type = type;
+            TimeSent = DateTime.Now;
+            Data = data;
+            IsMine = isMine;
+        }
         [Key]
         public int Id { get; set; }
 

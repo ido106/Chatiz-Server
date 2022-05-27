@@ -9,6 +9,6 @@ namespace Services
 {
     public interface IMessageService
     {
-        public Message getLast();
+
     }
 }

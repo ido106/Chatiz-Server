@@ -38,14 +38,14 @@ namespace WebApi.Controllers
         {
             if (id == null || _context.Message == null)
             {
-                return NotFound();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
 
             var message = await _context.Message
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (message == null)
             {
-                return NotFound();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
 
             return View(message);
@@ -78,13 +78,13 @@ namespace WebApi.Controllers
         {
             if (id == null || _context.Message == null)
             {
-                return NotFound();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
 
             var message = await _context.Message.FindAsync(id);
             if (message == null)
             {
-                return NotFound();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
             return View(message);
         }
@@ -98,7 +98,7 @@ namespace WebApi.Controllers
         {
             if (id != message.Id)
             {
-                return NotFound();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
 
             if (ModelState.IsValid)
@@ -112,7 +112,7 @@ namespace WebApi.Controllers
                 {
                     if (!MessageExists(message.Id))
                     {
-                        return NotFound();
+                        return new StatusCodeResult(StatusCodes.Status500InternalServerError);
                     }
                     else
                     {
@@ -129,14 +129,14 @@ namespace WebApi.Controllers
         {
             if (id == null || _context.Message == null)
             {
-                return NotFound();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
 
             var message = await _context.Message
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (message == null)
             {
-                return NotFound();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
 
             return View(message);

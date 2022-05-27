@@ -10,11 +10,9 @@ namespace Services
     public interface IContactService
     {
         public Message GetLast(string username, string contact);
-        
-        public Message Get(int id);
-
-        public void Add(string data);
-        public void Update(string data);
+        public Message Get(string username, string contact, int id);
+        public bool Add(string username, string contact, string data);
+        public bool Update(string id, int id2, string username, string newData);
 
 
 

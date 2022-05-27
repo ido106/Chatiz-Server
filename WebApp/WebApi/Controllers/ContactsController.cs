@@ -38,14 +38,14 @@ namespace WebApi.Controllers
         {
             if (id == null || _context.Contact == null)
             {
-                return NotFound();
+                return Problem();
             }
 
             var contact = await _context.Contact
                 .FirstOrDefaultAsync(m => m.ContactUsername == id);
             if (contact == null)
             {
-                return NotFound();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
 
             return View(contact);
@@ -78,13 +78,13 @@ namespace WebApi.Controllers
         {
             if (id == null || _context.Contact == null)
             {
-                return NotFound();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
 
             var contact = await _context.Contact.FindAsync(id);
             if (contact == null)
             {
-                return NotFound();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
             return View(contact);
         }
@@ -98,7 +98,7 @@ namespace WebApi.Controllers
         {
             if (id != contact.ContactUsername)
             {
-                return NotFound();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
 
             if (ModelState.IsValid)
@@ -112,7 +112,7 @@ namespace WebApi.Controllers
                 {
                     if (!ContactExists(contact.ContactUsername))
                     {
-                        return NotFound();
+                        return new StatusCodeResult(StatusCodes.Status500InternalServerError);
                     }
                     else
                     {
@@ -129,14 +129,14 @@ namespace WebApi.Controllers
         {
             if (id == null || _context.Contact == null)
             {
-                return NotFound();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
 
             var contact = await _context.Contact
                 .FirstOrDefaultAsync(m => m.ContactUsername == id);
             if (contact == null)
             {
-                return NotFound();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
 
             return View(contact);
