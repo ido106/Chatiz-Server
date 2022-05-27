@@ -17,5 +17,6 @@ namespace Services
         public Task<bool> AddContact(string username, string contact_name);
         public Task<bool> DeleteContact(string username, string contact_name);
         
+        public Task<bool> GetContactsInfo(string username);
     }
 }

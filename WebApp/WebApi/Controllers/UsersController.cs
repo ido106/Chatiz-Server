@@ -32,20 +32,37 @@ namespace WebApi.Controllers
             _config = config;
         }
 
+        // GET: Users
+        [HttpGet("contacts")]
+        [Authorize]
+        public async Task<IActionResult> Index()
+        {
+            string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
+            if (username == null) return NotFound();
+
+            User user = await _service.Get(username);
+            if(user== null) return NotFound();
 
 
-        [HttpPost("signIn")]
+            // todo is return value good ?
 
+            return (IActionResult) await _service.GetContactsInfo(username);
+        }
+
+
+
+        [HttpPost("SignIn")]
         public async Task<IActionResult> SignIn(string username, string password)
         {
             if (await _service.Get(username) != null && (await _service.Get(username)).Password.Equals(password))
             {
+                
                 var claims = new[]
                 {
                     new Claim(JwtRegisteredClaimNames.Sub, _config["JWTParams:Subject"]),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                    new Claim("UserId", username)
+                    new Claim("username", username)
                 };
 
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWTParams:SecretKey"]));
@@ -54,10 +71,28 @@ namespace WebApi.Controllers
                         _config["JWTParams:Issuer"],
                         _config["JWTParams:Audience"],
                         claims,
-                        expires: DateTime.UtcNow.AddMinutes(20),
+                        expires: DateTime.UtcNow.AddMinutes(60),
                         signingCredentials: mac);
 
                 return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+                
+                /**
+                var claims = new[]
+                {
+                new Claim(JwtRegisteredClaimNames.Sub, configuration["JWTParams:Subject"]),
+                new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+                new Claim("username", loginDetails.Username),
+                };
+
+                var claimsIdentity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
+                var authProperties = new AuthenticationProperties() { ExpiresUtc = DateTime.UtcNow.AddDays(7) };
+
+                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWTParams:SecretKey"]));
+                var mac = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+                var token = new JwtSecurityToken(configuration["JWTParams:Issuer"], configuration["JWTParams:Audience"], claims, expires: DateTime.UtcNow.AddDays(7), signingCredentials: mac);
+                return Ok(new { Token = new JwtSecurityTokenHandler().WriteToken(token), user });
+                **/
             }
             return BadRequest();
         }
@@ -76,13 +111,13 @@ namespace WebApi.Controllers
                 user.Server = "https://localhost:7092";
 
                 _service.Add(user);
+                return Ok();
             }
             return BadRequest();
         }
     }
 
-    // GET: Users/Details/5
-    [Authorize]
+    ///G GET:     [Authorize]
     public async Task<IActionResult> Details(string id)
     {
         if (id == null || _context.User == null)
@@ -113,7 +148,9 @@ namespace WebApi.Controllers
     // To protect from overposting attacks, enable the specific properties you want to bind to.
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
-    [ValidateAntiForgeryToken]
+    [ValidateAntiForgeryToken]        
+    [Authorize]
+
     public async Task<IActionResult> Create([Bind("Username, Nickname, Password")] User user)
     {
         if (ModelState.IsValid)
@@ -183,44 +220,43 @@ namespace WebApi.Controllers
 
 
     // GET: Users/Delete/5
-    /**
-    public async Task<IActionResult> Delete(string id)
+/**
+public async Task<IActionResult> Delete(string id)
+{
+    if (id == null || _context.User == null)
     {
-        if (id == null || _context.User == null)
-        {
-            return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-        }
-
-        var user = await _context.User
-            .FirstOrDefaultAsync(m => m.Username == id);
-        if (user == null)
-        {
-            return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-        }
-
-        return View(user);
+        return new StatusCodeResult(StatusCodes.Status500InternalServerError);
     }
-    **/
 
-    // POST: Users/Delete/5
-    /**
-    [HttpPost, ActionName("Delete")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(string id)
+    var user = await _context.User
+        .FirstOrDefaultAsync(m => m.Username == id);
+    if (user == null)
     {
-        if (_context.User == null)
-        {
-            return Problem("Entity set 'WebAppContext.User'  is null.");
-        }
-        var user = await _context.User.FindAsync(id);
-        if (user != null)
-        {
-            _context.User.Remove(user);
-        }
-        
-        await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
+        return new StatusCodeResult(StatusCodes.Status500InternalServerError);
     }
-    **/
+
+    return View(user);
 }
+**/
+
+// POST: Users/Delete/5
+/**
+[HttpPost, ActionName("Delete")]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> DeleteConfirmed(string id)
+{
+    if (_context.User == null)
+    {
+        return Problem("Entity set 'WebAppContext.User'  is null.");
+    }
+    var user = await _context.User.FindAsync(id);
+    if (user != null)
+    {
+        _context.User.Remove(user);
+    }
+    
+    await _context.SaveChangesAsync();
+    return RedirectToAction(nameof(Index));
+}
+**/
 

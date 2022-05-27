@@ -81,6 +81,23 @@ namespace Services
             return true;
         }
 
-    
+
+        public async Task<List<User>> GetContactsInfo(string username)
+        {
+            if (username == null) return null;
+            List<Contact> contacts = await GetContacts(username);
+            
+            List<string> contacts_username = new List<string>();
+            foreach(var contact in contacts)
+            {
+                contacts_username.Add(contact.ContactUsername);
+            }
+
+            var contact_info =  await (from user in _context.User
+                                       where contacts_username.Contains(user.Username)
+                                       select user).ToListAsync();
+
+            return contact_info;
+        }
     }
 }

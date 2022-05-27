@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Domain
 {
@@ -12,14 +13,17 @@ namespace Domain
 
         [Required]
         [DataType(DataType.Password)]
+        [JsonIgnore]
         public string Password { get; set; }
 
         public string Server { get; set; }
 
         public DateTime LastSeen { get; set; }
 
+        [JsonIgnore]
         public string ImgSrc { get; set; }
 
+        [JsonIgnore]
         public List<Contact> Contacts { get; set; }
 
     }
