@@ -13,7 +13,7 @@ using Services;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/")]
     [Authorize]
     public class MessagesController : ControllerBase
     {

@@ -13,7 +13,7 @@ using Services;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/")]
     [Authorize]
     public class ContactsController : ControllerBase
     {
@@ -62,7 +62,7 @@ namespace WebApi.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ContactUsername,Nickname,LastSeen,Server,ImgSrc")] Contact contact)
+        public async Task<IActionResult> Create([Bind("ContactUsername")] Contact contact)
         {
             if (ModelState.IsValid)
             {
@@ -94,7 +94,7 @@ namespace WebApi.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ContactUsername,Nickname,LastSeen,Server,ImgSrc")] Contact contact)
+        public async Task<IActionResult> Edit(string id, [Bind("ContactUsername")] Contact contact)
         {
             if (id != contact.ContactUsername)
             {

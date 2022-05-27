@@ -9,28 +9,81 @@ using Domain;
 using Repository;
 using Microsoft.AspNetCore.Authorization;
 using Services;
+using System.Security.Claims;
+using Microsoft.IdentityModel.JsonWebTokens;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
+using JwtRegisteredClaimNames = System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames;
 
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/")]
     [Authorize]
     public class UsersController : ControllerBase
     {
         //private readonly WebAppContext _context;
         private UserService _service;
+        private IConfiguration _config;
 
-        public UsersController(UserService service)
+        public UsersController(UserService service, IConfiguration config)
         {
             _service = service;
+            _config = config;
+        }
+
+
+
+        [HttpPost("signIn")]
+
+        public async Task<IActionResult> SignIn(string username, string password)
+        {
+            if (await _service.Get(username) != null && (await _service.Get(username)).Password.Equals(password))
+            {
+                var claims = new[]
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub, _config["JWTParams:Subject"]),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim("UserId", username)
+                };
+
+                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWTParams:SecretKey"]));
+                var mac = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+                var token = new JwtSecurityToken(
+                        _config["JWTParams:Issuer"],
+                        _config["JWTParams:Audience"],
+                        claims,
+                        expires: DateTime.UtcNow.AddMinutes(20),
+                        signingCredentials: mac);
+
+                return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+            }
+            return BadRequest();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register([Bind("Username, Nickname, Password")] User user)
+        {
+            if(ModelState.IsValid)
+            {
+                var q = _service.Get(user.Username);
+                // user is already exist
+                if (q != null) return BadRequest();
+
+                user.LastSeen = DateTime.Now;
+                user.Server = "https://localhost:7092";
+
+                 _service.Add(user);
+            }
+            return BadRequest();
         }
 
         // GET: Users
+        [HttpGet("contacts")]
         public async Task<IActionResult> Index()
-        {
-              return _context.User != null ? 
-                          View(await _context.User.ToListAsync()) :
-                          Problem("Entity set 'WebAppContext.User'  is null.");
+        { 
         }
 
         // GET: Users/Details/5
@@ -62,7 +115,7 @@ namespace WebApi.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Username,Nickname,Password,Server,LastSeen,ImgSrc")] User user)
+        public async Task<IActionResult> Create([Bind("Username,Nickname,Password")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -94,7 +147,7 @@ namespace WebApi.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Username,Nickname,Password,Server,LastSeen,ImgSrc")] User user)
+        public async Task<IActionResult> Edit(string id, [Bind("Username,Nickname,Password")] User user)
         {
             if (id != user.Username)
             {
@@ -124,7 +177,9 @@ namespace WebApi.Controllers
             return View(user);
         }
 
+
         // GET: Users/Delete/5
+        /**
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null || _context.User == null)
@@ -141,8 +196,10 @@ namespace WebApi.Controllers
 
             return View(user);
         }
+        **/
 
         // POST: Users/Delete/5
+        /**
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
@@ -160,10 +217,6 @@ namespace WebApi.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-        private bool UserExists(string id)
-        {
-          return (_context.User?.Any(e => e.Username == id)).GetValueOrDefault();
-        }
+        **/
     }
 }

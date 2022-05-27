@@ -21,54 +21,55 @@ namespace Services
 
 
 
-        public Message GetLast(string username, string contact)
+        public async Task<Message> GetLast(string username, string contact)
         {
-            if(username == null || contact == null || _userService.Get(username) == null || _userService.GetContact(username, contact) == null)
+            if(username == null || contact == null || await _userService.Get(username) == null || await _userService.GetContact(username, contact) == null)
             {
                 return null;
             } 
 
-            Contact c = _userService.Get(username).Contacts.Find(x => x.ContactUsername == contact);
+            Contact c =  (await _userService.Get(username)).Contacts.Find(x => x.ContactUsername == contact);
             int id = c.Messages.Max(x => x.Id);
             return c.Messages.FirstOrDefault(x => x.Id == id);
         }
 
-        public Message Get(string username, string contact, int id)
+        public async Task<Message> Get(string username, string contact, int id)
         {
-            if (username == null || contact == null || _userService.Get(username) == null || _userService.GetContact(username, contact) == null)
+            if (username == null || contact == null || await _userService.Get(username) == null || await _userService.GetContact(username, contact) == null)
             {
                 return null;
             }
 
-            return _userService.GetContact(username, contact).Messages.FirstOrDefault(m => m.Id == id);
+            return (await _userService.GetContact(username, contact)).Messages.FirstOrDefault(m => m.Id == id);
         }
 
-            private bool addMessageHelper(string username, string contacat, string data, bool isMine)
+            private async Task<bool> addMessageHelper(string username, string contacat, string data, bool isMine)
         {
             if (_userService.Get(username) == null) return false;
-            Contact c = _userService.GetContact(username, contacat);
+            Contact c = await _userService.GetContact(username, contacat);
             if (c == null) return false;
             int id = c.Messages.Max(x => x.Id) + 1;
             Message message = new Message(id, "text", data, isMine);
             c.Messages.Add(message);
+            await _context.SaveChangesAsync();
             return true;
         }
 
-        public bool Add(string username, string contact, string data)
+        public async Task<bool> Add(string username, string contact, string data)
         {
-            bool temp = addMessageHelper(username, contact, data, true) && addMessageHelper(contact,username, data, false);
-            if (temp) _context.SaveChanges();
+            bool temp = await addMessageHelper(username, contact, data, true) && await addMessageHelper(contact,username, data, false);
+            if (temp) await _context.SaveChangesAsync();
             return temp;
         }
 
-        public bool Update(string id,int id2, string username, string newData)
+        public async Task<bool> Update(string id,int id2, string username, string newData)
         {
             if (username == null || newData == null) return false;
-            Contact c = _userService.GetContact(username, id);
+            Contact c = await _userService.GetContact(username, id);
             if (c == null) return false;
             Message m = c.Messages.FirstOrDefault(m => m.Id == id2);
             m.Data = newData;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return true;
         } 
     }

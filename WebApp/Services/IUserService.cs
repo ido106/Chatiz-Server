@@ -10,12 +10,12 @@ namespace Services
     public interface IUserService
     {
         public void Add(User usern);
-        public bool Exist(string username);
-        public User Get(string username);
-        public List<Contact> GetContacts(string username);
-        public Contact GetContact(string username, string contact_name);
-        public bool AddContact(string username, string contact_name);
-        public bool DeleteContact(string username, string contact_name);
+        public Task<bool> Exist(string username);
+        public Task<User> Get(string username);
+        public Task<List<Contact>> GetContacts(string username);
+        public Task<Contact> GetContact(string username, string contact_name);
+        public Task<bool> AddContact(string username, string contact_name);
+        public Task<bool> DeleteContact(string username, string contact_name);
         
     }
 }

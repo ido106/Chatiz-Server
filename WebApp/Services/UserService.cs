@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain;
+using Microsoft.EntityFrameworkCore;
 using Repository;
 
 namespace Services
@@ -17,66 +18,66 @@ namespace Services
             _context = context;
         }
 
-        public List<User> GetAll()
+        public async Task<List<User>> GetAll()
         {
-            return _context.User.ToList();
+            return await _context.User.ToListAsync();
         }
 
-        public User Get(string username)
+        public async Task<User> Get(string username)
         {
-            return _context.User.FirstOrDefault(x => x.Username == username);
+            return  await _context.User.FirstOrDefaultAsync(x => x.Username == username);
         }
 
-        public void Add(User user)
+        public async void Add(User user)
         {
-            _context.User.Add(user);
-            _context.SaveChanges();
+            await _context.User.AddAsync(user);
+            await _context.SaveChangesAsync();
         }
 
-        public bool Exist(string username)
+        public async Task<bool> Exist(string username)
         {
-           var q = _context.User.Where(x => x.Username.Equals(username));
-           return q.Count() > 0;
+           var q = await _context.User.FirstOrDefaultAsync(x => x.Username.Equals(username));
+           return q != null;
         }
 
-        public List<Contact> GetContacts(string username)
+        public async Task<List<Contact>> GetContacts(string username)
         {
-            User user = Get(username);
+            User user = await Get(username);
             if (user == null) return null;
             return user.Contacts;
         }
 
-        public Contact GetContact(string username, string contact_name)
+        public async Task<Contact> GetContact(string username, string contact_name)
         {
-            List<Contact> all_contacts = GetContacts(username);
+            List<Contact> all_contacts = await GetContacts(username);
             if (all_contacts == null) return null;
             Contact contact = all_contacts.FirstOrDefault(x => x.ContactUsername == contact_name);
             return contact;
         }
 
-        public bool AddContact(string username, string contact_name)
+        public async Task<bool> AddContact(string username, string contact_name)
         {
-            User user = Get(username);
+            User user = await Get(username);
             if(user == null) return false;
 
-            if(Get(contact_name) == null) return false;
+            if(await Get(contact_name) == null) return false;
 
             Contact contact = new (contact_name);
 
             user.Contacts.Add(contact);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return true;
         }
 
-        public bool DeleteContact(string username, string contact_name)
+        public async Task<bool> DeleteContact(string username, string contact_name)
         {
-            User user = Get(username);
+            User user = await Get(username);
             if(user == null || username.Equals(contact_name)) return false;
-            Contact contact = GetContact(username, contact_name);
+            Contact contact = await GetContact(username, contact_name);
             if(contact == null) return false;
             user.Contacts.Remove(contact);
-            _context.SaveChanges();
 
+            await _context.SaveChangesAsync();
             return true;
         }
 
