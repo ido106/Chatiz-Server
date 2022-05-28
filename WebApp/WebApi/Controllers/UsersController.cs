@@ -113,6 +113,11 @@ namespace WebApi.Controllers
             return BadRequest();
         }
 
+        /*************************************************************************************************************************************************************************
+         */
+
+        //TODO: not sure why the function allways return status 500, try to updtae the db and it might work, the db didnt work for me.
+        //if it doesnt help it might be a general error with the server
         [HttpPost("Register")]
         public async Task<IActionResult> Register(string username,string nickName ,string password)
         {
@@ -134,6 +139,9 @@ namespace WebApi.Controllers
         }
     }
 }
+
+
+/*****************************************************************************************************************************************************************************************/
 
 
 //    public async Task<IActionResult> Details(string id)
