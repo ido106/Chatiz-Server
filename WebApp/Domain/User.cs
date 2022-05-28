@@ -17,6 +17,7 @@ namespace Domain
         [JsonIgnore]
         public string Password { get; set; }
 
+        [Required]
         public string Server { get; set; }
 
         public DateTime LastSeen { get; set; }

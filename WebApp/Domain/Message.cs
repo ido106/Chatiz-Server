@@ -4,15 +4,8 @@ namespace Domain
 {
     public class Message
     {
-        public Message(int id, string type, string data, bool isMine)
-        {
-            Id = id;
-            Type = type;
-            TimeSent = DateTime.Now;
-            Data = data;
-            IsMine = isMine;
-        }
         [Key]
+        [Required]
         public int Id { get; set; }
 
         [Required]

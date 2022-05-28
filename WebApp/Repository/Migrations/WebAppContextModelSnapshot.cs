@@ -24,26 +24,10 @@ namespace Repository.Migrations
                     b.Property<string>("ContactUsername")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("ImgSrc")
+                    b.Property<string>("LastMessage")
                         .HasColumnType("longtext");
-
-                    b.Property<DateTime>("LastSeen")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Nickname")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Server")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Username")
-                        .HasColumnType("varchar(255)");
 
                     b.HasKey("ContactUsername");
-
-                    b.HasIndex("Username");
 
                     b.ToTable("Contact");
                 });
@@ -90,6 +74,7 @@ namespace Repository.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Nickname")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Password")
@@ -107,9 +92,13 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("Domain.Contact", b =>
                 {
-                    b.HasOne("Domain.User", null)
+                    b.HasOne("Domain.User", "User")
                         .WithMany("Contacts")
-                        .HasForeignKey("Username");
+                        .HasForeignKey("ContactUsername")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Message", b =>

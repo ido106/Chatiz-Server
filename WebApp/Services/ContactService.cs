@@ -47,7 +47,14 @@ namespace Services
             Contact c = await _userService.GetContact(username, contacat);
             if (c == null) return false;
             int id = c.Messages.Max(x => x.Id) + 1;
-            Message message = new(id, "text", data, isMine);
+
+            //Message message = new(id, "text", data, isMine);
+            Message message = new();
+            message.Id = id;
+            message.Type = "text";
+            message.Data = data;
+            message.IsMine = isMine;
+
             c.Messages.Add(message);
             await _context.SaveChangesAsync();
             return true;

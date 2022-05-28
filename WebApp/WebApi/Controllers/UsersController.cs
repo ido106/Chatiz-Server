@@ -124,7 +124,12 @@ namespace WebApi.Controllers
             Console.WriteLine("acascasca");
             if (ModelState.IsValid)
             {
-                User user = new() { Username = username, Nickname = nickName, Password = password};
+                //User user = new(username, nickName, password);
+                User user = new();
+                user.Username = username;
+                user.Nickname = nickName;
+                user.Password = password;
+
                 var q = await _service.Get(user.Username);
                 // user is already exist
                 if (q != null) return BadRequest();
@@ -137,8 +142,10 @@ namespace WebApi.Controllers
             }
             return BadRequest();
         }
+
         // api/contacts/:id/messages
-        [HttpGet("{id}/{messages}")]
+
+        /*[HttpGet("{id}/{messages}")]
         public async Task<IActionResult> GetContactMessagesAsync(string id, string messages)
         {
             string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
@@ -180,7 +187,7 @@ namespace WebApi.Controllers
             result += "]";
 
             return Ok(result);
-        }
+        }*/
     }
 }
 

@@ -66,9 +66,13 @@ namespace Services
             User user = await Get(username);
             if(user == null) return false;
 
-            if(await Get(contact_name) == null) return false;
+            User contact_user = await Get(contact_name);
+            if (contact_user == null) return false;
 
-            Contact contact = new (contact_name, nickName, server);
+            //Contact contact = new (contact_name, contact_user);
+            Contact contact = new();
+            contact.ContactUsername = contact_name;
+            contact.User = contact_user;
 
             user.Contacts.Add(contact);
             await _context.SaveChangesAsync();
