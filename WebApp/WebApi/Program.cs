@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Repository;
 using Services;
 using System.Text;
 
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -30,6 +32,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 **/
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Allow all",
+        builder =>
+        {
+            builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+        });
+});
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -48,20 +62,10 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("Allow all",
-        builder =>
-        {
-            builder
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader();
-        });
-});
-//builder.Services.AddTransient<UserService>();
-//builder.Services.AddTransient<MessageService>();
-//builder.Services.AddTransient<ContactService>();
+builder.Services.AddTransient<WebAppContext>();
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IMessageService, MessageService>();
+builder.Services.AddTransient<IContactService, ContactService>();
 
 var app = builder.Build();
 
@@ -78,5 +82,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+
+
 
 app.Run();

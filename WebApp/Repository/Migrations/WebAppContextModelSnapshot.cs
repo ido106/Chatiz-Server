@@ -82,7 +82,6 @@ namespace Repository.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Server")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Username");
