@@ -35,7 +35,7 @@ namespace WebApi.Controllers
 
         // GET: Users
         [HttpGet("contacts")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
@@ -48,7 +48,7 @@ namespace WebApi.Controllers
 
 
         [HttpGet("contacts/{contact}")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> IndexSpecific(string contact)
         {
             string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
