@@ -54,7 +54,13 @@ namespace Services
             Contact contact = all_contacts.FirstOrDefault(x => x.ContactUsername == contact_name);
             return contact;
         }
-
+        public async Task<List<Message>> GetContactMsgs(string username, string contact_name)
+        {
+            List<Contact> all_contacts = await GetContacts(username);
+            if (all_contacts == null) return null;
+            return all_contacts.FirstOrDefault(x => x.ContactUsername == contact_name).Messages;
+             
+        }
         public async Task<bool> AddContact(string username, string contact_name, string nickName, string server)
         {
             User user = await Get(username);

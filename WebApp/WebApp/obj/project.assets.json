@@ -9587,19 +9587,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\yoavo\\.nuget\\packages\\": {}
+    "C:\\Users\\shahar\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\yoavo\\Advanced2_new\\Advanced2_New\\WebApp\\WebApp\\WebApp.csproj",
+      "projectUniqueName": "C:\\Users\\shahar\\Advanced2_New\\WebApp\\WebApp\\WebApp.csproj",
       "projectName": "WebApp",
-      "projectPath": "C:\\Users\\yoavo\\Advanced2_new\\Advanced2_New\\WebApp\\WebApp\\WebApp.csproj",
-      "packagesPath": "C:\\Users\\yoavo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\yoavo\\Advanced2_new\\Advanced2_New\\WebApp\\WebApp\\obj\\",
+      "projectPath": "C:\\Users\\shahar\\Advanced2_New\\WebApp\\WebApp\\WebApp.csproj",
+      "packagesPath": "C:\\Users\\shahar\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\shahar\\Advanced2_New\\WebApp\\WebApp\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\yoavo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\shahar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -9613,14 +9618,14 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\yoavo\\Advanced2_new\\Advanced2_New\\WebApp\\Domain\\Domain.csproj": {
-              "projectPath": "C:\\Users\\yoavo\\Advanced2_new\\Advanced2_New\\WebApp\\Domain\\Domain.csproj"
+            "C:\\Users\\shahar\\Advanced2_New\\WebApp\\Domain\\Domain.csproj": {
+              "projectPath": "C:\\Users\\shahar\\Advanced2_New\\WebApp\\Domain\\Domain.csproj"
             },
-            "C:\\Users\\yoavo\\Advanced2_new\\Advanced2_New\\WebApp\\Repository\\Repository.csproj": {
-              "projectPath": "C:\\Users\\yoavo\\Advanced2_new\\Advanced2_New\\WebApp\\Repository\\Repository.csproj"
+            "C:\\Users\\shahar\\Advanced2_New\\WebApp\\Repository\\Repository.csproj": {
+              "projectPath": "C:\\Users\\shahar\\Advanced2_New\\WebApp\\Repository\\Repository.csproj"
             },
-            "C:\\Users\\yoavo\\Advanced2_new\\Advanced2_New\\WebApp\\Services\\Services.csproj": {
-              "projectPath": "C:\\Users\\yoavo\\Advanced2_new\\Advanced2_New\\WebApp\\Services\\Services.csproj"
+            "C:\\Users\\shahar\\Advanced2_New\\WebApp\\Services\\Services.csproj": {
+              "projectPath": "C:\\Users\\shahar\\Advanced2_New\\WebApp\\Services\\Services.csproj"
             }
           }
         }

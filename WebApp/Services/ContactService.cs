@@ -31,7 +31,6 @@ namespace Services
             Contact c =  (await _userService.Get(username)).Contacts.Find(x => x.ContactUsername == contact);
             return c.Messages.Last();
         }
-
         public async Task<Message> Get(string username, string contact, int id)
         {
             if (username == null || contact == null || await _userService.Get(username) == null || await _userService.GetContact(username, contact) == null)

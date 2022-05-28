@@ -14,7 +14,5 @@ namespace Services
         public Task<bool> Add(string username, string contact, string data);
         public Task<bool> Update(string id, int id2, string username, string newData);
 
-
-
     }
 }

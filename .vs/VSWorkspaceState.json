@@ -2,7 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\WebApp",
-    "\\WebApp\\Services"
+    "\\WebApp\\Services",
+    "\\WebApp\\WebApp"
   ],
+  "SelectedNode": "\\WebApp\\WebApp\\obj",
   "PreviewInSolutionExplorer": false
 }

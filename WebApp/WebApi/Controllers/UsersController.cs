@@ -137,6 +137,50 @@ namespace WebApi.Controllers
             }
             return BadRequest();
         }
+        // api/contacts/:id/messages
+        [HttpGet("{id}/{messages}")]
+        public async Task<IActionResult> GetContactMessagesAsync(string id, string messages)
+        {
+            string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
+            if (username == null) return NotFound();
+            if (messages == null || messages != "messages")
+            {
+                return NotFound();
+            }
+            string result = "";
+            var allMessages = await _service.GetContactMsgs(username, id);
+            if (allMessages == null)
+            {
+                return NotFound();
+            }
+            bool firstTime = true;
+            result += "[";
+
+            foreach (var message in allMessages)
+            {
+                if (!firstTime)
+                {
+                    result += ",";
+                }
+                result += "{";
+                result += "\"id\":\"" + message.Id + "\",";
+                result += "\"content\":\"" + message.Data + "\",";
+                result += "\"created\":\"" + message.TimeSent.ToString("yyyy-MM-ddTHH:mm:ss.fffffff") + "\",";
+                if (message.IsMine)
+                {
+                    result += "\"sent\":\"" + username.ToLower() + "\"";
+                }
+                else
+                {
+                    result += "\"sent\":\"" + id.ToLower() + "\"";
+                }
+                result += "}";
+                firstTime = false;
+            }
+            result += "]";
+
+            return Ok(result);
+        }
     }
 }
 
