@@ -41,7 +41,7 @@ namespace WebApi.Controllers
             string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
             if (username == null) return NotFound();
 
-            return Ok(_service.GetContacts(username));
+            return Ok(await _service.GetContacts(username));
         }
 
 
