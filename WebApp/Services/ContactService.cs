@@ -29,8 +29,7 @@ namespace Services
             } 
 
             Contact c =  (await _userService.Get(username)).Contacts.Find(x => x.ContactUsername == contact);
-            int id = c.Messages.Max(x => x.Id);
-            return c.Messages.FirstOrDefault(x => x.Id == id);
+            return c.Messages.Last();
         }
 
         public async Task<Message> Get(string username, string contact, int id)
@@ -49,7 +48,7 @@ namespace Services
             Contact c = await _userService.GetContact(username, contacat);
             if (c == null) return false;
             int id = c.Messages.Max(x => x.Id) + 1;
-            Message message = new Message(id, "text", data, isMine);
+            Message message = new(id, "text", data, isMine);
             c.Messages.Add(message);
             await _context.SaveChangesAsync();
             return true;
@@ -57,7 +56,8 @@ namespace Services
 
         public async Task<bool> Add(string username, string contact, string data)
         {
-            bool temp = await addMessageHelper(username, contact, data, true) && await addMessageHelper(contact,username, data, false);
+            //maybe need to check if contact is in this server, if he is - add the message to his list as well, if he isnt - send a request to the other server.
+            bool temp = await addMessageHelper(username, contact, data, true);
             if (temp) await _context.SaveChangesAsync();
             return temp;
         }

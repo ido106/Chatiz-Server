@@ -1943,24 +1943,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\shahar\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\yoavo\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\shahar\\Advanced2_New\\WebApp\\Repository\\Repository.csproj",
+      "projectUniqueName": "C:\\Users\\yoavo\\Advanced2_new\\Advanced2_New\\WebApp\\Repository\\Repository.csproj",
       "projectName": "Repository",
-      "projectPath": "C:\\Users\\shahar\\Advanced2_New\\WebApp\\Repository\\Repository.csproj",
-      "packagesPath": "C:\\Users\\shahar\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\shahar\\Advanced2_New\\WebApp\\Repository\\obj\\",
+      "projectPath": "C:\\Users\\yoavo\\Advanced2_new\\Advanced2_New\\WebApp\\Repository\\Repository.csproj",
+      "packagesPath": "C:\\Users\\yoavo\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\yoavo\\Advanced2_new\\Advanced2_New\\WebApp\\Repository\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\shahar\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\yoavo\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1974,8 +1969,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\shahar\\Advanced2_New\\WebApp\\Domain\\Domain.csproj": {
-              "projectPath": "C:\\Users\\shahar\\Advanced2_New\\WebApp\\Domain\\Domain.csproj"
+            "C:\\Users\\yoavo\\Advanced2_new\\Advanced2_New\\WebApp\\Domain\\Domain.csproj": {
+              "projectPath": "C:\\Users\\yoavo\\Advanced2_new\\Advanced2_New\\WebApp\\Domain\\Domain.csproj"
             }
           }
         }

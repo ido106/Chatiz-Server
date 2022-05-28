@@ -59,10 +59,9 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader();
         });
 });
-
-builder.Services.AddTransient<UserService>();
-builder.Services.AddTransient<MessageService>();
-builder.Services.AddTransient<ContactService>();
+//builder.Services.AddTransient<UserService>();
+//builder.Services.AddTransient<MessageService>();
+//builder.Services.AddTransient<ContactService>();
 
 var app = builder.Build();
 

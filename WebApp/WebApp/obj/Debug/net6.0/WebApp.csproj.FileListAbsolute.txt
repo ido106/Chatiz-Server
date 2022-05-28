@@ -267,3 +267,14 @@ C:\Users\Ido\Documents\GitHub\Advanced2_New\WebApp\WebApp\bin\Debug\net6.0\MySql
 C:\Users\Ido\Documents\GitHub\Advanced2_New\WebApp\WebApp\bin\Debug\net6.0\Pomelo.EntityFrameworkCore.MySql.dll
 C:\Users\Ido\Documents\GitHub\Advanced2_New\WebApp\WebApp\bin\Debug\net6.0\Repository.dll
 C:\Users\Ido\Documents\GitHub\Advanced2_New\WebApp\WebApp\bin\Debug\net6.0\Repository.pdb
+C:\Users\yoavo\Advanced2_new\Advanced2_New\WebApp\WebApp\obj\Debug\net6.0\WebApp.csproj.AssemblyReference.cache
+C:\Users\yoavo\Advanced2_new\Advanced2_New\WebApp\WebApp\obj\Debug\net6.0\WebApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\yoavo\Advanced2_new\Advanced2_New\WebApp\WebApp\obj\Debug\net6.0\WebApp.AssemblyInfoInputs.cache
+C:\Users\yoavo\Advanced2_new\Advanced2_New\WebApp\WebApp\obj\Debug\net6.0\WebApp.AssemblyInfo.cs
+C:\Users\yoavo\Advanced2_new\Advanced2_New\WebApp\WebApp\obj\Debug\net6.0\WebApp.csproj.CoreCompileInputs.cache
+C:\Users\yoavo\Advanced2_new\Advanced2_New\WebApp\WebApp\obj\Debug\net6.0\WebApp.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\yoavo\Advanced2_new\Advanced2_New\WebApp\WebApp\obj\Debug\net6.0\WebApp.RazorAssemblyInfo.cache
+C:\Users\yoavo\Advanced2_new\Advanced2_New\WebApp\WebApp\obj\Debug\net6.0\WebApp.RazorAssemblyInfo.cs
+C:\Users\yoavo\Advanced2_new\Advanced2_New\WebApp\WebApp\obj\Debug\net6.0\WebApp.dll
+C:\Users\yoavo\Advanced2_new\Advanced2_New\WebApp\WebApp\obj\Debug\net6.0\refint\WebApp.dll
+C:\Users\yoavo\Advanced2_new\Advanced2_New\WebApp\WebApp\obj\Debug\net6.0\WebApp.pdb
