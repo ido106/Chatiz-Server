@@ -9,7 +9,7 @@ namespace Services
 {
     public interface IUserService
     {
-        public void Add(User usern);
+        public Task Add(User usern);
         public Task<bool> Exist(string username);
         public Task<User> Get(string username);
         public Task<List<Contact>> GetContacts(string username);

@@ -137,7 +137,7 @@ namespace WebApi.Controllers
                 user.LastSeen = DateTime.Now;
                 user.Server = "https://localhost:7092";
 
-                _service.Add(user);
+                await _service.Add(user);
                 return Ok();
             }
             return BadRequest();

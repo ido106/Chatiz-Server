@@ -28,7 +28,7 @@ namespace Services
             return  await _context.User.FirstOrDefaultAsync(x => x.Username == username);
         }
 
-        public async void Add(User user)
+        public async Task Add(User user)
         {
             await _context.User.AddAsync(user);
             await _context.SaveChangesAsync();
