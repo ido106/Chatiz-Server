@@ -15,6 +15,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using JwtRegisteredClaimNames = System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication;
 
 namespace WebApi.Controllers
 {
@@ -36,6 +38,7 @@ namespace WebApi.Controllers
         // GET: Users
         [HttpGet("contacts")]
         [Authorize]
+
         public async Task<IActionResult> Index()
         {
             string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
@@ -81,16 +84,26 @@ namespace WebApi.Controllers
                     new Claim("username", username)
                 };
 
+
+                var claimsIdentity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
+                var authProperties = new AuthenticationProperties() { ExpiresUtc = DateTime.UtcNow.AddDays(7) };
+
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWTParams:SecretKey"]));
                 var mac = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-                var token = new JwtSecurityToken(
-                        _config["JWTParams:Issuer"],
-                        _config["JWTParams:Audience"],
-                        claims,
-                        expires: DateTime.UtcNow.AddMinutes(60),
-                        signingCredentials: mac);
+                var token = new JwtSecurityToken(_config["JWTParams:Issuer"], _config["JWTParams:Audience"], claims, expires: DateTime.UtcNow.AddDays(7), signingCredentials: mac);
+                return Ok(new { Token = new JwtSecurityTokenHandler().WriteToken(token) });
 
-                return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+                /*
+                                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWTParams:SecretKey"]));
+                                var mac = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+                                var token = new JwtSecurityToken(
+                                        _config["JWTParams:Issuer"],
+                                        _config["JWTParams:Audience"],
+                                        claims,
+                                        expires: DateTime.UtcNow.AddMinutes(60),
+                                        signingCredentials: mac);
+
+                                return Ok(new JwtSecurityTokenHandler().WriteToken(token));*/
 
                 /**
                 var claims = new[]
