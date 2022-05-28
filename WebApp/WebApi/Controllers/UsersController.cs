@@ -23,10 +23,10 @@ namespace WebApi.Controllers
     public class UsersController : ControllerBase
     {
         //private readonly WebAppContext _context;
-        private UserService _service;
+        private IUserService _service;
         private IConfiguration _config;
 
-        public UsersController(UserService service, IConfiguration config)
+        public UsersController(IUserService service, IConfiguration config)
         {
             _service = service;
             _config = config;
@@ -35,7 +35,7 @@ namespace WebApi.Controllers
 
         // GET: Users
         [HttpGet("contacts")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Index()
         {
             string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
@@ -48,7 +48,7 @@ namespace WebApi.Controllers
 
 
         [HttpGet("contacts/{contact}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> IndexSpecific(string contact)
         {
             string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;

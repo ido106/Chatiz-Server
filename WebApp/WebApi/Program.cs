@@ -32,17 +32,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 **/
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("Allow all",
-        builder =>
-        {
-            builder
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader();
-        });
-});
+
 
 builder.Services.AddAuthentication(options =>
 {
@@ -60,6 +50,18 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = builder.Configuration["JWTParams:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTParams:SecretKey"]))
     };
+});
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Allow all",
+        builder =>
+        {
+            builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+        });
 });
 
 builder.Services.AddTransient<WebAppContext>();
@@ -82,8 +84,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-
-
 
 app.Run();
