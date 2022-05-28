@@ -114,10 +114,12 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Register([Bind("Username, Nickname, Password")] User user)
+        public async Task<IActionResult> Register(string username,string nickName ,string password)
         {
+            Console.WriteLine("acascasca");
             if (ModelState.IsValid)
             {
+                User user = new() { Username = username, Nickname = nickName, Password = password};
                 var q = await _service.Get(user.Username);
                 // user is already exist
                 if (q != null) return BadRequest();

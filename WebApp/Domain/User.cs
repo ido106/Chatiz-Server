@@ -6,6 +6,7 @@ namespace Domain
     public class User
     {
         [Key]
+        [Required]
         public string Username { get; set; }
 
         [Required]
