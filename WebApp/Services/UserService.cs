@@ -25,6 +25,7 @@ namespace Services
 
         public async Task<User> Get(string username)
         {
+            if(username == null) return null;
             return  await _context.User.FirstOrDefaultAsync(x => x.Username == username);
         }
 
@@ -74,8 +75,10 @@ namespace Services
             contact.ContactUsername = contact_name;
             contact.User = contact_user;
 
+            _context.Contact.Add(contact);
             // TODO are we sure that the contacts are updated also on the DB ?
             user.Contacts.Add(contact);
+            _context.Update(user);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -87,7 +90,10 @@ namespace Services
             if(user == null || username.Equals(contact_name)) return false;
             Contact contact = await GetContact(username, contact_name);
             if(contact == null) return false;
+
             user.Contacts.Remove(contact);
+            _context.Contact.Remove(contact);
+            _context.Update(user);
 
             await _context.SaveChangesAsync();
             return true;
@@ -103,6 +109,7 @@ namespace Services
             // TODO do i have to change directly the contact's user? (it will change to the original user also)
             c.User.Server = server;
             c.User.Nickname = nickname;
+            _context.Update(c);
             return true;
         }
 
@@ -167,7 +174,10 @@ namespace Services
             message.Data = data;
             message.IsMine = isMine;
 
+            _context.Message.Add(message);
             c.Messages.Add(message);
+            _context.Update(c);
+
             return true;
         }
 
@@ -187,6 +197,8 @@ namespace Services
             Message m = c.Messages.FirstOrDefault(m => m.Id == id);
             if (m == null) return false;
             m.Data = newData;
+
+            _context.Update(m);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -201,6 +213,8 @@ namespace Services
 
             (await GetMessages(username, contact)).Remove(m);
 
+            _context.Message.Remove(m);
+            _context.Update(c);
             await _context.SaveChangesAsync();
             return true;
         }

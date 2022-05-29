@@ -38,7 +38,7 @@ namespace WebApi.Controllers
 
         // GET: Users
         [HttpGet("contacts")]
-        [Authorize]
+        //[Authorize]
 
         public async Task<IActionResult> GetContacts()
         {
@@ -195,11 +195,15 @@ namespace WebApi.Controllers
             return Ok();
         }
 
+        [HttpPost("invitations")]
+
         // *****************
 
         [HttpPost("SignIn")]
-        public async Task<IActionResult> SignIn(string username, string password)
+        public async Task<IActionResult> SignIn([FromBody] JsonElement json)
         {
+            string username = json.GetProperty("username").ToString();
+            string password = json.GetProperty("password").ToString();
             if (await _service.Get(username) != null && (await _service.Get(username)).Password.Equals(password))
             {
 
