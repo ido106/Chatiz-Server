@@ -16,7 +16,7 @@ namespace Services
         public Task<Contact> GetContact(string username, string contact_name);
         public Task<bool> AddContact(string username, string contact_name);
         public Task<bool> DeleteContact(string username, string contact_name);
-        public Task<List<Message>> GetContactMsgs(string username, string contact_name);
+        //public Task<List<Message>> GetContactMsgs(string username, string contact_name);
 
         public Task<bool> ChangeContact(string username, string contact_username, string nickname, string server);
 
@@ -27,5 +27,7 @@ namespace Services
         public Task<Message> GetMessageID(string username, string contact, int id);
         public Task<bool> AddMessage(string username, string contact, string data);
         public Task<bool> UpdateMessage(string contact_username, int id, string username, string newData);
+
+        public Task<bool> DeleteMessage(string username, string contact, int id);
     }
 }

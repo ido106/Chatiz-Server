@@ -54,13 +54,13 @@ namespace Services
             Contact contact = all_contacts.FirstOrDefault(x => x.ContactUsername == contact_name);
             return contact;
         }
-        public async Task<List<Message>> GetContactMsgs(string username, string contact_name)
+        /*public async Task<List<Message>> GetContactMsgs(string username, string contact_name)
         {
             List<Contact> all_contacts = await GetContacts(username);
             if (all_contacts == null) return null;
             return all_contacts.FirstOrDefault(x => x.ContactUsername == contact_name).Messages;
              
-        }
+        }*/
         public async Task<bool> AddContact(string username, string contact_name)
         {
             User user = await Get(username);
@@ -181,12 +181,26 @@ namespace Services
 
         public async Task<bool> UpdateMessage(string contact_username, int id, string username, string newData)
         {
-            if (username == null || newData == null) return false;
+            if (username == null || newData == null || contact_username==null) return false;
             Contact c = await GetContact(username, contact_username);
             if (c == null) return false;
             Message m = c.Messages.FirstOrDefault(m => m.Id == id);
             if (m == null) return false;
             m.Data = newData;
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> DeleteMessage(string username, string contact, int id)
+        {
+            if (username == null || contact == null) return false;
+            Contact c = await GetContact(username, contact);
+            if (c == null) return false;
+            Message m = c.Messages.FirstOrDefault(m => m.Id == id);
+            if (m == null) return false;
+
+            (await GetMessages(username, contact)).Remove(m);
+
             await _context.SaveChangesAsync();
             return true;
         }

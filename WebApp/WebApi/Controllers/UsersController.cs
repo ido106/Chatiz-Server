@@ -176,6 +176,25 @@ namespace WebApi.Controllers
             return Ok();
         }
 
+        [HttpDelete("contacts/{id}/messages/{id2}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteMessageID(string contact, string id)
+        {
+            string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
+            if (id == null || username == null || await _service.Get(username) == null) return NotFound();
+
+            if (contact == null || await _service.GetContact(username, contact) == null) return NotFound();
+
+            if (!int.TryParse(id, out var id2)) return BadRequest();
+
+            Message message = await _service.GetMessageID(username, contact, id2);
+            if (message == null) return NotFound();
+
+           await _service.DeleteMessage(username, contact, id2);
+
+            return Ok();
+        }
+
         // *****************
 
         [HttpPost("SignIn")]
