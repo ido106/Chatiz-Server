@@ -121,14 +121,43 @@ namespace WebApi.Controllers
             string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
             if (username == null || await _service.Get(username) == null) return NotFound();
 
-            if (contact == null) return NotFound();
+            if (contact == null || await _service.GetContact(username, contact)== null) return NotFound();
 
-            Contact c = await _service.GetContact(username, contact);
 
-            if (c == null) return NotFound();
-
-            return Ok(c);
+            return Ok(await _service.GetMessages(username, contact));
         }
+
+        [HttpPost("contacts/{id}/messages")]
+        [Authorize]
+        public async Task<IActionResult> AddMessage(string contact, [FromBody] JsonElement json)
+        {
+            string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
+            if (username == null || await _service.Get(username) == null) return NotFound();
+
+            if (contact == null || await _service.GetContact(username, contact) == null) return NotFound();
+
+            await _service.AddMessage(username, contact, json.GetProperty("content").ToString());
+            return Ok();
+        }
+
+        [HttpGet("contacts/{id}/messages/{id2}")]
+        [Authorize]
+        public async Task<IActionResult> GetMessageID(string contact, string id)
+        {
+            string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
+            if (id == null || username == null || await _service.Get(username) == null) return NotFound();
+
+            if (contact == null || await _service.GetContact(username, contact) == null) return NotFound();
+
+            if (! int.TryParse(id, out var id2)) return BadRequest();
+
+            Message message = await _service.GetMessageID(username, contact, id2);
+            if (message == null) return NotFound();
+
+            return Ok(message);
+        }
+
+        // *****************
 
         [HttpPost("SignIn")]
         public async Task<IActionResult> SignIn(string username, string password)
