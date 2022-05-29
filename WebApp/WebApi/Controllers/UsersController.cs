@@ -159,7 +159,7 @@ namespace WebApi.Controllers
 
         [HttpPut("contacts/{id}/messages/{id2}")]
         [Authorize]
-        public async Task<IActionResult> EditMessageID(string contact, string id, , [FromBody] JsonElement json)
+        public async Task<IActionResult> EditMessageID(string contact, string id, [FromBody] JsonElement json)
         {
             string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
             if (id == null || username == null || await _service.Get(username) == null) return NotFound();
