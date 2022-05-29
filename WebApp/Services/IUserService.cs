@@ -26,6 +26,6 @@ namespace Services
         public Task<Message> GetLast(string username, string contact);
         public Task<Message> GetMessageID(string username, string contact, int id);
         public Task<bool> AddMessage(string username, string contact, string data);
-        public Task<bool> UpdateMessage(string id, int id2, string username, string newData);
+        public Task<bool> UpdateMessage(string contact_username, int id, string username, string newData);
     }
 }

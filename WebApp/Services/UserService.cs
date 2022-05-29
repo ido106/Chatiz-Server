@@ -179,12 +179,13 @@ namespace Services
             return temp;
         }
 
-        public async Task<bool> UpdateMessage(string id, int id2, string username, string newData)
+        public async Task<bool> UpdateMessage(string contact_username, int id, string username, string newData)
         {
             if (username == null || newData == null) return false;
-            Contact c = await GetContact(username, id);
+            Contact c = await GetContact(username, contact_username);
             if (c == null) return false;
-            Message m = c.Messages.FirstOrDefault(m => m.Id == id2);
+            Message m = c.Messages.FirstOrDefault(m => m.Id == id);
+            if (m == null) return false;
             m.Data = newData;
             await _context.SaveChangesAsync();
             return true;
