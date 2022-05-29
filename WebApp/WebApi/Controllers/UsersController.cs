@@ -38,7 +38,7 @@ namespace WebApi.Controllers
 
         // GET: Users
         [HttpGet("contacts")]
-        //[Authorize]
+        [Authorize]
 
         public async Task<IActionResult> GetContacts()
         {
