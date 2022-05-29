@@ -17,6 +17,7 @@ using System.IdentityModel.Tokens.Jwt;
 using JwtRegisteredClaimNames = System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication;
+using System.Text.Json;
 
 namespace WebApi.Controllers
 {
@@ -39,25 +40,42 @@ namespace WebApi.Controllers
         [HttpGet("contacts")]
         [Authorize]
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> GetContacts()
         {
             string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
             if (username == null) return NotFound();
+            if (await _service.Get(username) == null) return NotFound();
 
             return Ok(await _service.GetContacts(username));
+        }
+
+        [HttpPost("contacts")]
+        [Authorize]
+
+        public async Task<IActionResult> AddContact([FromBody] JsonElement json)
+        {
+            string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
+            if (username == null || await _service.Get(username) == null) return NotFound();
+
+            string contact_username = json.GetProperty("id").ToString();
+            if (contact_username == null || await _service.Get(contact_username) == null) return NotFound();
+            
+            await _service.AddContact(username, contact_username);
+
+            return Ok();
         }
 
 
 
 
-        [HttpGet("contacts/{contact}")]
+        [HttpGet("contacts/{id}")]
         [Authorize]
-        public async Task<IActionResult> IndexSpecific(string contact)
+        public async Task<IActionResult> ContactID(string contact)
         {
             string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
-            if (username == null) return NotFound();
+            if (username == null || await _service.Get(username) == null) return NotFound();
 
-            if (await _service.Exist(username)) return NotFound();
+            if (contact == null) return NotFound();
 
             Contact c = await _service.GetContact(username, contact);
 
@@ -66,9 +84,51 @@ namespace WebApi.Controllers
             return Ok(c);
         }
 
+        [HttpPut("contacts/{id}")]
+        [Authorize]
+        public async Task<IActionResult> ChangeContactID(string contact, [FromBody] JsonElement json)
+        {
+            string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
+            if (username == null || await _service.Get(username) == null) return NotFound();
+            if (contact == null) return NotFound();
+            Contact c = await _service.GetContact(username, contact);
+            if (c == null) return NotFound();
 
+            // TODO do i have to change directly the contact's user? (it will change to the original user also)
+            await _service.ChangeContact(username, contact, json.GetProperty("name").ToString(), json.GetProperty("server").ToString());
 
+            return Ok();
+        }
 
+        [HttpDelete("contacts/{id}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteContactID(string contact)
+        {
+            string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
+            if (username == null || await _service.Get(username) == null) return NotFound();
+            if (contact == null || await _service.GetContact(username, contact) == null) return NotFound();
+       
+
+            await _service.DeleteContact(username, contact);
+
+            return Ok();
+        }
+
+        [HttpGet("contacts/{id}/messages")]
+        [Authorize]
+        public async Task<IActionResult> GetMessages(string contact)
+        {
+            string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
+            if (username == null || await _service.Get(username) == null) return NotFound();
+
+            if (contact == null) return NotFound();
+
+            Contact c = await _service.GetContact(username, contact);
+
+            if (c == null) return NotFound();
+
+            return Ok(c);
+        }
 
         [HttpPost("SignIn")]
         public async Task<IActionResult> SignIn(string username, string password)
@@ -132,16 +192,15 @@ namespace WebApi.Controllers
         //TODO: not sure why the function allways return status 500, try to updtae the db and it might work, the db didnt work for me.
         //if it doesnt help it might be a general error with the server
         [HttpPost("Register")]
-        public async Task<IActionResult> Register(string username, string nickName, string password)
+        public async Task<IActionResult> Register([FromBody] JsonElement json)
         {
-            Console.WriteLine("acascasca");
             if (ModelState.IsValid)
             {
                 //User user = new(username, nickName, password);
                 User user = new();
-                user.Username = username;
-                user.Nickname = nickName;
-                user.Password = password;
+                user.Username = json.GetProperty("username").ToString();
+                user.Nickname = json.GetProperty("nickName").ToString();
+                user.Password = json.GetProperty("password").ToString();
 
                 var q = await _service.Get(user.Username);
                 // user is already exist

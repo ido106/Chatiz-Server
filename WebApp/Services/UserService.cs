@@ -61,7 +61,7 @@ namespace Services
             return all_contacts.FirstOrDefault(x => x.ContactUsername == contact_name).Messages;
              
         }
-        public async Task<bool> AddContact(string username, string contact_name, string nickName, string server)
+        public async Task<bool> AddContact(string username, string contact_name)
         {
             User user = await Get(username);
             if(user == null) return false;
@@ -74,6 +74,7 @@ namespace Services
             contact.ContactUsername = contact_name;
             contact.User = contact_user;
 
+            // TODO are we sure that the contacts are updated also on the DB ?
             user.Contacts.Add(contact);
             await _context.SaveChangesAsync();
             return true;
@@ -81,6 +82,7 @@ namespace Services
 
         public async Task<bool> DeleteContact(string username, string contact_name)
         {
+
             User user = await Get(username);
             if(user == null || username.Equals(contact_name)) return false;
             Contact contact = await GetContact(username, contact_name);
@@ -91,8 +93,21 @@ namespace Services
             return true;
         }
 
+        public async Task<bool> ChangeContact(string username, string contact_username, string nickname, string server)
+        {
+            if (username==null || contact_username == null) return false;
 
-        public async Task<List<User>> GetContactsInfo(string username)
+            Contact c = await GetContact(username, contact_username);
+            if(c == null) return false;
+
+            // TODO do i have to change directly the contact's user? (it will change to the original user also)
+            c.User.Server = server;
+            c.User.Nickname = nickname;
+            return true;
+        }
+
+
+        /*public async Task<List<User>> GetContactsInfo(string username)
         {
             if (username == null) return null;
             List<Contact> contacts = await GetContacts(username);
@@ -108,6 +123,72 @@ namespace Services
                                        select user).ToListAsync();
 
             return contact_info;
+        }*/
+
+        public async Task<Message> GetLast(string username, string contact)
+        {
+            if (username == null || contact == null || await Get(username) == null || await GetContact(username, contact) == null)
+            {
+                return null;
+            }
+
+            Contact c = (await Get(username)).Contacts.Find(x => x.ContactUsername == contact);
+            return c.Messages.Last();
+        }
+
+        public async Task<List<Message>> GetMessages(string username, string contact)
+        {
+            Contact c = await GetContact(username, contact);
+            if (username == null || contact == null || await Get(username) == null || c == null) return null;
+            if(await GetLast(username, contact) == null) return new List<Message>();
+            return c.Messages;
+        }
+
+        public async Task<Message> GetMessageID(string username, string contact, int id)
+        {
+            if (username == null || contact == null || await Get(username) == null || await GetContact(username, contact) == null)
+            {
+                return null;
+            }
+            return (await GetMessages(username, contact)).FirstOrDefault(m => m.Id == id);
+        }
+
+        private async Task<bool> addMessageHelper(string username, string contacat, string data, bool isMine)
+        {
+            if (await Get(username) == null) return false;
+            Contact c = await GetContact(username, contacat);
+            if (c == null) return false;
+            int id = c.Messages.Max(x => x.Id) + 1;
+
+            //Message message = new(id, "text", data, isMine);
+            Message message = new();
+            message.Id = id;
+            message.Type = "text";
+            message.Data = data;
+            message.IsMine = isMine;
+
+            c.Messages.Add(message);
+            return true;
+        }
+
+        public async Task<bool> AddMessage(string username, string contact, string data)
+        {
+            //maybe need to check if contact is in this server, if he is - add the message to his list as well, if he isnt - send a request to the other server.
+            bool temp = await addMessageHelper(username, contact, data, true);
+            if (temp) await _context.SaveChangesAsync();
+            return temp;
+        }
+
+        public async Task<bool> UpdateMessage(string id, int id2, string username, string newData)
+        {
+            if (username == null || newData == null) return false;
+            Contact c = await GetContact(username, id);
+            if (c == null) return false;
+            Message m = c.Messages.FirstOrDefault(m => m.Id == id2);
+            m.Data = newData;
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
+}
 }

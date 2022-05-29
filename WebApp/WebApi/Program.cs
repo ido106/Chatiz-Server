@@ -84,8 +84,6 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddTransient<WebAppContext>();
 builder.Services.AddTransient<IUserService, UserService>();
-builder.Services.AddTransient<IMessageService, MessageService>();
-builder.Services.AddTransient<IContactService, ContactService>();
 
 var app = builder.Build();
 
@@ -95,6 +93,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
+
+app.UseCors(x => x
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .SetIsOriginAllowed(origin => true) // allow any origin
+                    .AllowCredentials()); // allow credentials
 
 app.UseCors("Allow All");
 app.UseHttpsRedirection();
