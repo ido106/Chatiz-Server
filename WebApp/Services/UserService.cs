@@ -194,6 +194,7 @@ namespace Services
 
             //_context.Message.Add(message);
             c.Messages.Add(message);
+            c.LastMessage = data;
             _context.Update(c);
             await _context.SaveChangesAsync();
 

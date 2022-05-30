@@ -54,8 +54,11 @@ namespace WebApi.Controllers
             string username = getConnectedUser();
             if (username == null) return NotFound();
             if (await _service.Get(username) == null) return NotFound();
-
-            return Ok(await _service.GetContacts(username));
+            List<Contact> contacts = await _service.GetContacts(username);
+            if(contacts == null) { 
+                return Ok(new List<Contact>());
+            }
+            return Ok(contacts);
         }
 
         [HttpPost("contacts")]
@@ -82,7 +85,7 @@ namespace WebApi.Controllers
 
             await _service.AddContact(username, contact_username, contact_nickname, contact_server);
 
-            return Ok();
+            return StatusCode(201);
         }
 
 
@@ -127,7 +130,7 @@ namespace WebApi.Controllers
             // TODO do i have to change directly the contact's user? (it will change to the original user also)
             await _service.ChangeContact(username, contact, nickname , server);
 
-            return Ok();
+            return NoContent();
         }
 
         [HttpDelete("contacts/{id}")]
@@ -141,7 +144,7 @@ namespace WebApi.Controllers
 
             await _service.DeleteContact(username, contact);
 
-            return Ok();
+            return NoContent();
         }
 
         [HttpGet("contacts/{id}/messages")]
@@ -176,7 +179,7 @@ namespace WebApi.Controllers
             }
 
             await _service.AddMessage(username, contact, content);
-            return Ok();
+            return StatusCode(201);
         }
 
         [HttpGet("contacts/{id}/messages/{id2}")]
@@ -221,7 +224,7 @@ namespace WebApi.Controllers
 
             await _service.UpdateMessage(contact, id2, username, content);
 
-            return Ok();
+            return NoContent();
         }
 
         [HttpDelete("contacts/{id}/messages/{id2}")]
@@ -240,7 +243,7 @@ namespace WebApi.Controllers
 
             await _service.DeleteMessage(username, contact, id2);
 
-            return Ok();
+            return NoContent();
         }
 
         [HttpPost("invitations")]
@@ -264,7 +267,7 @@ namespace WebApi.Controllers
             if (await _service.GetContact(to, from) != null) return Ok();
 
             await _service.AddContact(to, from, from, server);
-            return Ok();
+            return StatusCode(201);
         }
 
         [HttpPost("transfer")]
@@ -289,7 +292,7 @@ namespace WebApi.Controllers
             if (await _service.GetContact(to, from) == null) return BadRequest();
 
             await _service.AddMessage(to, from, content);
-            return Ok();
+            return StatusCode(201);
         }
 
         // *****************
