@@ -34,6 +34,7 @@ namespace Services
         public async Task Add(User user)
         {
             if (user == null) return;
+            if (user.Contacts == null) user.Contacts = new List<Contact>();
             await _context.User.AddAsync(user);
             await _context.SaveChangesAsync();
         }
@@ -87,6 +88,7 @@ namespace Services
             contact.LastSeen = DateTime.Now;
 
             // _context.Contact.Add(contact); ??
+            if(user.Contacts == null) user.Contacts = new List<Contact>();
 
             // TODO are we sure that the contacts are updated also on the DB ?
             user.Contacts.Add(contact);

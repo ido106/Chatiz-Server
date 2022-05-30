@@ -392,6 +392,7 @@ namespace WebApi.Controllers
                 user.Username = username;
                 user.Nickname = nickname;
                 user.Password = password;
+                user.Contacts = new List<Contact>();
 
                 var q = await _service.Get(user.Username);
                 // user is already exist
