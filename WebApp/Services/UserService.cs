@@ -59,14 +59,14 @@ namespace Services
             Contact contact = all_contacts.FirstOrDefault(x => x.ContactUsername == contact_name);
             return contact;
         }
-        public async Task<List<Message>> GetContactMsgs(string username, string contact_name)
+        /*public async Task<List<Message>> GetContactMsgs(string username, string contact_name)
         {
             if(username == null || contact_name == null) return null;
             List<Contact> all_contacts = await GetContacts(username);
             if (all_contacts == null) return null;
             return all_contacts.FirstOrDefault(x => x.ContactUsername == contact_name).Messages;
              
-        }
+        }*/
         public async Task<bool> AddContact(string username, string contact_name, string contact_nickname, string contact_server)
         {
             if (username == null || contact_name == null) return false;
@@ -84,8 +84,11 @@ namespace Services
             contact.Server = contact_server;
             contact.LastSeen = DateTime.Now;
 
+            // _context.Contact.Add(contact); ??
+
             // TODO are we sure that the contacts are updated also on the DB ?
             user.Contacts.Add(contact);
+            _context.Update(user);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -98,7 +101,9 @@ namespace Services
             if(user == null || username.Equals(contact_name)) return false;
             Contact contact = await GetContact(username, contact_name);
             if(contact == null) return false;
+
             user.Contacts.Remove(contact);
+            // _context.Contact.Remove(contact);??
 
             _context.Update(user);
             await _context.SaveChangesAsync();
@@ -115,6 +120,8 @@ namespace Services
             c.Server = server;
             c.Nickname = nickname;
 
+            _context.Update(c);
+            await _context.SaveChangesAsync();
             /*c.User.Server = server;
             c.User.Nickname = nickname;*/
             return true;
@@ -181,8 +188,13 @@ namespace Services
             message.Type = "text";
             message.Data = data;
             message.IsMine = isMine;
+            message.TimeSent = DateTime.Now;
 
+            //_context.Message.Add(message);
             c.Messages.Add(message);
+            _context.Update(c);
+            await _context.SaveChangesAsync();
+
             return true;
         }
 
@@ -195,7 +207,7 @@ namespace Services
             return temp;
         }
 
-        public async Task<bool> UpdateMessage(string id, int id2, string username, string newData)
+        /*public async Task<bool> UpdateMessage(string id, int id2, string username, string newData)
         {
             if (username == null || newData == null) return false;
             Contact c = await GetContact(username, id);
@@ -204,7 +216,33 @@ namespace Services
             m.Data = newData;
             await _context.SaveChangesAsync();
             return true;
+        }*/
+        public async Task<bool> UpdateMessage(string contact_username, int id, string username, string newData)
+        {
+            if (username == null || newData == null || contact_username == null) return false;
+            Contact c = await GetContact(username, contact_username);
+            if (c == null) return false;
+            Message m = c.Messages.FirstOrDefault(m => m.Id == id);
+            if (m == null) return false;
+            m.Data = newData;
+            _context.Update(m);
+            await _context.SaveChangesAsync();
+            return true;
         }
+        public async Task<bool> DeleteMessage(string username, string contact, int id)
+        {
+            if (username == null || contact == null) return false;
+            Contact c = await GetContact(username, contact);
+            if (c == null) return false;
+            Message m = c.Messages.FirstOrDefault(m => m.Id == id);
+            if (m == null) return false;
+            (await GetMessages(username, contact)).Remove(m);
+            //_context.Message.Remove(m);
+            _context.Update(c);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
     }
 }
 
