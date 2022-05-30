@@ -29,6 +29,8 @@ namespace Services
         public Task<bool> UpdateMessage(string contact_username, int id, string username, string newData);
 
         public Task<bool> DeleteMessage(string username, string contact, int id);
+
+        public Task<bool> ReceiveMessage(string username, string contact, string data);
     }
 }
 

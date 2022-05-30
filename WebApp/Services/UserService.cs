@@ -76,6 +76,10 @@ namespace Services
 
             User user = await Get(username);
             if(user == null) return false;
+            Contact c = await GetContact(username, contact_name);
+            if (c != null) return false;
+
+            if (user.Contacts == null) user.Contacts = new List<Contact>();
 
             /*User contact_user = await Get(contact_name);
             if (contact_user == null) return false;*/
@@ -88,11 +92,13 @@ namespace Services
             contact.LastSeen = DateTime.Now;
 
             // _context.Contact.Add(contact); ??
-            if(user.Contacts == null) user.Contacts = new List<Contact>();
 
+
+            //_context.Contact.Add(contact);
             // TODO are we sure that the contacts are updated also on the DB ?
             user.Contacts.Add(contact);
             _context.Update(user);
+            
             await _context.SaveChangesAsync();
             return true;
         }
@@ -212,6 +218,8 @@ namespace Services
             return temp;
         }
 
+        
+
         /*public async Task<bool> UpdateMessage(string id, int id2, string username, string newData)
         {
             if (username == null || newData == null) return false;
@@ -246,6 +254,15 @@ namespace Services
             _context.Update(c);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<bool> ReceiveMessage(string username, string contact, string data)
+        {
+            if (username == null || contact == null || data == null) return false;
+            //maybe need to check if contact is in this server, if he is - add the message to his list as well, if he isnt - send a request to the other server.
+            bool temp = await addMessageHelper(username, contact, data, false);
+            if (temp) await _context.SaveChangesAsync();
+            return temp;
         }
 
     }

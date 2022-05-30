@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using Repository;
 using Services;
 using System.Text;
+using WebApi.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-
+builder.Services.AddSignalR();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -108,5 +109,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+/*app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<WebAppHub>("/WebAppHub");
+});*/
 
 app.Run();

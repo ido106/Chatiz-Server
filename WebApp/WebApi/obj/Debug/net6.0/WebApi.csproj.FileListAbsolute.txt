@@ -814,3 +814,4 @@ C:\Users\shahar\Advanced2_New\WebApp\WebApi\obj\Debug\net6.0\WebApi.pdb
 C:\Users\shahar\Advanced2_New\WebApp\WebApi\obj\Debug\net6.0\WebApi.genruntimeconfig.cache
 C:\Users\shahar\Advanced2_New\WebApp\WebApi\obj\Debug\net6.0\ref\WebApi.dll
 C:\Users\Ido\Documents\GitHub\Advanced2_New\WebApp\WebApi\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Ido\Documents\GitHub\Advanced2_New\WebApp\WebApi\bin\Debug\net6.0\libman.json
