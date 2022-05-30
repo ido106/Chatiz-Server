@@ -42,14 +42,14 @@ namespace Repository
             //Debugger.Launch();
             // configure primary keys
             modelBuilder.Entity<User>().HasKey(user => user.Username);
-            modelBuilder.Entity<User>().HasMany(u => u.Contacts).WithOne(c => c.User).HasForeignKey(c => c.ContactUsername);
+
+            modelBuilder.Entity<User>().HasMany(u => u.Contacts);
+            //modelBuilder.Entity<User>().HasMany(u => u.Contacts).WithOne(c => c.User).HasForeignKey(c => c.ContactUsername);
 
 
-            //modelBuilder.Entity<Contact>().HasKey(contact => contact.ContactUsername);
             modelBuilder.Entity<Contact>().HasKey(c => c.ContactUsername);
-            modelBuilder.Entity<Contact>().HasOne(c => c.User).WithMany(u => u.Contacts).HasForeignKey(c => c.ContactUsername);
+            //modelBuilder.Entity<Contact>().HasOne(c => c.User).WithMany(u => u.Contacts).HasForeignKey(c => c.ContactUsername);
             modelBuilder.Entity<Contact>().HasMany(c => c.Messages);
-            //modelBuilder.Entity<Contact>().HasMany(c => c.Messages).WithOne( m => m.Id)
 
             modelBuilder.Entity<Message>().HasKey(message => message.Id);
         }

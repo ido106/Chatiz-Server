@@ -58,9 +58,11 @@ namespace WebApi.Controllers
             if (username == null || await _service.Get(username) == null) return NotFound();
 
             string contact_username = json.GetProperty("id").ToString();
-            if (contact_username == null || await _service.Get(contact_username) == null) return NotFound();
+            string contact_nickname = json.GetProperty("name").ToString();
+            string contact_server = json.GetProperty("server").ToString();
+            if (contact_username == null || contact_nickname ==null || contact_server == null) return NotFound();
             
-            await _service.AddContact(username, contact_username);
+            await _service.AddContact(username, contact_username, contact_nickname, contact_server);
 
             return Ok();
         }
