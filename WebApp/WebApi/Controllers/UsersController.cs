@@ -246,7 +246,50 @@ namespace WebApi.Controllers
         [HttpPost("invitations")]
         public async Task<IActionResult> NewChatInvitation([FromBody] JsonElement json)
         {
+            string from;
+            string to;
+            string server;
 
+            try
+            {
+                from = json.GetProperty("from").ToString();
+                to = json.GetProperty("to").ToString();
+                server = json.GetProperty("server").ToString();
+            } catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+            if (await _service.Get(to) == null) return BadRequest();
+            if (await _service.GetContact(to, from) != null) return Ok();
+
+            await _service.AddContact(to, from, from, server);
+            return Ok();
+        }
+
+        [HttpPost("transfer")]
+        public async Task<IActionResult> NewMessageTransfer([FromBody] JsonElement json)
+        {
+            string from;
+            string to;
+            string content;
+
+            try
+            {
+                from = json.GetProperty("from").ToString();
+                to = json.GetProperty("to").ToString();
+                content = json.GetProperty("content").ToString();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+            if (await _service.Get(to) == null) return BadRequest();
+            if (await _service.GetContact(to, from) == null) return BadRequest();
+
+            await _service.AddMessage(to, from, content);
+            return Ok();
         }
 
         // *****************
