@@ -3186,6 +3186,7 @@
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
           "Domain": "1.0.0",
+          "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.5",
           "Repository": "1.0.0"
         },
         "compile": {

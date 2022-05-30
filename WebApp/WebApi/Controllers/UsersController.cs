@@ -28,13 +28,22 @@ namespace WebApi.Controllers
         //private readonly WebAppContext _context;
         private IUserService _service;
         private IConfiguration _config;
+        private JwtSecurityTokenHandler _jwtHandler;
 
         public UsersController(IUserService service, IConfiguration config)
         {
             _service = service;
             _config = config;
+            _jwtHandler = new JwtSecurityTokenHandler();
         }
 
+
+        private string getConnectedUser()
+        {
+            var token = _jwtHandler.ReadJwtToken(Request.Headers["Authorization"].ToString().Substring("Bearer ".Length));
+            string username = token.Claims.First(claim => claim.Type == "username").Value;
+            return username;
+        }
 
         // GET: Users
         [HttpGet("contacts")]
@@ -42,7 +51,7 @@ namespace WebApi.Controllers
 
         public async Task<IActionResult> GetContacts()
         {
-            string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
+            string username = getConnectedUser();
             if (username == null) return NotFound();
             if (await _service.Get(username) == null) return NotFound();
 
@@ -54,7 +63,7 @@ namespace WebApi.Controllers
 
         public async Task<IActionResult> AddContact([FromBody] JsonElement json)
         {
-            string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
+            string username = getConnectedUser();
             if (username == null || await _service.Get(username) == null) return NotFound();
 
             string contact_username = json.GetProperty("id").ToString();
@@ -74,7 +83,7 @@ namespace WebApi.Controllers
         [Authorize]
         public async Task<IActionResult> ContactID(string contact)
         {
-            string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
+            string username = getConnectedUser();
             if (username == null || await _service.Get(username) == null) return NotFound();
 
             if (contact == null) return NotFound();
@@ -90,7 +99,7 @@ namespace WebApi.Controllers
         [Authorize]
         public async Task<IActionResult> ChangeContactID(string contact, [FromBody] JsonElement json)
         {
-            string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
+            string username = getConnectedUser();
             if (username == null || await _service.Get(username) == null) return NotFound();
             if (contact == null) return NotFound();
             Contact c = await _service.GetContact(username, contact);
@@ -106,7 +115,7 @@ namespace WebApi.Controllers
         [Authorize]
         public async Task<IActionResult> DeleteContactID(string contact)
         {
-            string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
+            string username = getConnectedUser();
             if (username == null || await _service.Get(username) == null) return NotFound();
             if (contact == null || await _service.GetContact(username, contact) == null) return NotFound();
 
@@ -120,7 +129,7 @@ namespace WebApi.Controllers
         [Authorize]
         public async Task<IActionResult> GetMessages(string contact)
         {
-            string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
+            string username = getConnectedUser();
             if (username == null || await _service.Get(username) == null) return NotFound();
 
             if (contact == null || await _service.GetContact(username, contact) == null) return NotFound();
@@ -133,7 +142,7 @@ namespace WebApi.Controllers
         [Authorize]
         public async Task<IActionResult> AddMessage(string contact, [FromBody] JsonElement json)
         {
-            string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
+            string username = getConnectedUser();
             if (username == null || await _service.Get(username) == null) return NotFound();
 
             if (contact == null || await _service.GetContact(username, contact) == null) return NotFound();
@@ -146,7 +155,7 @@ namespace WebApi.Controllers
         [Authorize]
         public async Task<IActionResult> GetMessageID(string contact, string id)
         {
-            string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
+            string username = getConnectedUser();
             if (id == null || username == null || await _service.Get(username) == null) return NotFound();
 
             if (contact == null || await _service.GetContact(username, contact) == null) return NotFound();
@@ -163,7 +172,7 @@ namespace WebApi.Controllers
         [Authorize]
         public async Task<IActionResult> EditMessageID(string contact, string id, [FromBody] JsonElement json)
         {
-            string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
+            string username = getConnectedUser();
             if (id == null || username == null || await _service.Get(username) == null) return NotFound();
 
             if (contact == null || await _service.GetContact(username, contact) == null) return NotFound();
@@ -182,7 +191,7 @@ namespace WebApi.Controllers
         [Authorize]
         public async Task<IActionResult> DeleteMessageID(string contact, string id)
         {
-            string username = User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
+            string username = getConnectedUser();
             if (id == null || username == null || await _service.Get(username) == null) return NotFound();
 
             if (contact == null || await _service.GetContact(username, contact) == null) return NotFound();
@@ -208,6 +217,7 @@ namespace WebApi.Controllers
             string password = json.GetProperty("password").ToString();
             if (await _service.Get(username) != null && (await _service.Get(username)).Password.Equals(password))
             {
+                // TODO UPDATE TIME ON CONTACTS ?
 
                 var claims = new[]
                 {
