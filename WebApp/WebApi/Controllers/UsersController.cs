@@ -64,11 +64,20 @@ namespace WebApi.Controllers
         public async Task<IActionResult> AddContact([FromBody] JsonElement json)
         {
             string username = getConnectedUser();
+            string contact_username;
+            string contact_nickname;
+            string contact_server;
             if (username == null || await _service.Get(username) == null) return NotFound();
 
-            string contact_username = json.GetProperty("id").ToString();
-            string contact_nickname = json.GetProperty("name").ToString();
-            string contact_server = json.GetProperty("server").ToString();
+            try {
+                contact_username = json.GetProperty("id").ToString();
+                contact_nickname = json.GetProperty("name").ToString();
+                contact_server = json.GetProperty("server").ToString();
+            } catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
             if (contact_username == null || contact_nickname == null || contact_server == null) return NotFound();
 
             await _service.AddContact(username, contact_username, contact_nickname, contact_server);
@@ -105,8 +114,18 @@ namespace WebApi.Controllers
             Contact c = await _service.GetContact(username, contact);
             if (c == null) return NotFound();
 
+            string nickname;
+            string server;
+            try
+            {
+                nickname = json.GetProperty("name").ToString();
+                server = json.GetProperty("server").ToString();
+            } catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
             // TODO do i have to change directly the contact's user? (it will change to the original user also)
-            await _service.ChangeContact(username, contact, json.GetProperty("name").ToString(), json.GetProperty("server").ToString());
+            await _service.ChangeContact(username, contact, nickname , server);
 
             return Ok();
         }
@@ -147,7 +166,16 @@ namespace WebApi.Controllers
 
             if (contact == null || await _service.GetContact(username, contact) == null) return NotFound();
 
-            await _service.AddMessage(username, contact, json.GetProperty("content").ToString());
+            string content;
+            try
+            {
+                content = json.GetProperty("content").ToString();
+            } catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+            await _service.AddMessage(username, contact, content);
             return Ok();
         }
 
@@ -182,7 +210,16 @@ namespace WebApi.Controllers
             Message message = await _service.GetMessageID(username, contact, id2);
             if (message == null) return NotFound();
 
-            await _service.UpdateMessage(contact, id2, username, json.GetProperty("content").ToString());
+            string content;
+            try
+            {
+                content = json.GetProperty("content").ToString();
+            } catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+            await _service.UpdateMessage(contact, id2, username, content);
 
             return Ok();
         }
@@ -207,14 +244,27 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("invitations")]
+        public async Task<IActionResult> NewChatInvitation([FromBody] JsonElement json)
+        {
+
+        }
 
         // *****************
 
         [HttpPost("SignIn")]
         public async Task<IActionResult> SignIn([FromBody] JsonElement json)
         {
-            string username = json.GetProperty("username").ToString();
-            string password = json.GetProperty("password").ToString();
+            string username;
+            string password;
+            try
+            {
+                username = json.GetProperty("username").ToString();
+                password = json.GetProperty("password").ToString();
+            } catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
             if (await _service.Get(username) != null && (await _service.Get(username)).Password.Equals(password))
             {
                 // TODO UPDATE TIME ON CONTACTS ?
@@ -234,7 +284,7 @@ namespace WebApi.Controllers
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWTParams:SecretKey"]));
                 var mac = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
                 var token = new JwtSecurityToken(_config["JWTParams:Issuer"], _config["JWTParams:Audience"], claims, expires: DateTime.UtcNow.AddDays(7), signingCredentials: mac);
-                return Ok(new { Token = new JwtSecurityTokenHandler().WriteToken(token) });
+                return Ok(new JwtSecurityTokenHandler().WriteToken(token));
 
                 /*
                                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWTParams:SecretKey"]));
@@ -281,9 +331,21 @@ namespace WebApi.Controllers
             {
                 //User user = new(username, nickName, password);
                 User user = new();
-                user.Username = json.GetProperty("username").ToString();
-                user.Nickname = json.GetProperty("nickName").ToString();
-                user.Password = json.GetProperty("password").ToString();
+                string username;
+                string nickname;
+                string password;
+                try
+                {
+                    username = json.GetProperty("username").ToString();
+                    nickname = json.GetProperty("nickName").ToString();
+                    password = json.GetProperty("password").ToString();
+                } catch (Exception e)
+                {
+                    return BadRequest(e.Message);
+                }
+                user.Username = username;
+                user.Nickname = nickname;
+                user.Password = password;
 
                 var q = await _service.Get(user.Username);
                 // user is already exist
