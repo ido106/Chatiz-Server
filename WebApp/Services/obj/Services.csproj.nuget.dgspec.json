@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Ido\\Documents\\GitHub\\backup\\Advanced2_New\\WebApp\\Services\\Services.csproj": {}
+    "C:\\Users\\Ido\\Documents\\GitHub\\Advanced2_New\\WebApp\\Services\\Services.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Ido\\Documents\\GitHub\\backup\\Advanced2_New\\WebApp\\Domain\\Domain.csproj": {
+    "C:\\Users\\Ido\\Documents\\GitHub\\Advanced2_New\\WebApp\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ido\\Documents\\GitHub\\backup\\Advanced2_New\\WebApp\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\Users\\Ido\\Documents\\GitHub\\Advanced2_New\\WebApp\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\Ido\\Documents\\GitHub\\backup\\Advanced2_New\\WebApp\\Domain\\Domain.csproj",
+        "projectPath": "C:\\Users\\Ido\\Documents\\GitHub\\Advanced2_New\\WebApp\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\Ido\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ido\\Documents\\GitHub\\backup\\Advanced2_New\\WebApp\\Domain\\obj\\",
+        "outputPath": "C:\\Users\\Ido\\Documents\\GitHub\\Advanced2_New\\WebApp\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Ido\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -58,14 +58,14 @@
         }
       }
     },
-    "C:\\Users\\Ido\\Documents\\GitHub\\backup\\Advanced2_New\\WebApp\\Repository\\Repository.csproj": {
+    "C:\\Users\\Ido\\Documents\\GitHub\\Advanced2_New\\WebApp\\Repository\\Repository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ido\\Documents\\GitHub\\backup\\Advanced2_New\\WebApp\\Repository\\Repository.csproj",
+        "projectUniqueName": "C:\\Users\\Ido\\Documents\\GitHub\\Advanced2_New\\WebApp\\Repository\\Repository.csproj",
         "projectName": "Repository",
-        "projectPath": "C:\\Users\\Ido\\Documents\\GitHub\\backup\\Advanced2_New\\WebApp\\Repository\\Repository.csproj",
+        "projectPath": "C:\\Users\\Ido\\Documents\\GitHub\\Advanced2_New\\WebApp\\Repository\\Repository.csproj",
         "packagesPath": "C:\\Users\\Ido\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ido\\Documents\\GitHub\\backup\\Advanced2_New\\WebApp\\Repository\\obj\\",
+        "outputPath": "C:\\Users\\Ido\\Documents\\GitHub\\Advanced2_New\\WebApp\\Repository\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Ido\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -82,8 +82,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\Ido\\Documents\\GitHub\\backup\\Advanced2_New\\WebApp\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\Ido\\Documents\\GitHub\\backup\\Advanced2_New\\WebApp\\Domain\\Domain.csproj"
+              "C:\\Users\\Ido\\Documents\\GitHub\\Advanced2_New\\WebApp\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\Ido\\Documents\\GitHub\\Advanced2_New\\WebApp\\Domain\\Domain.csproj"
               }
             }
           }
@@ -136,14 +136,14 @@
         }
       }
     },
-    "C:\\Users\\Ido\\Documents\\GitHub\\backup\\Advanced2_New\\WebApp\\Services\\Services.csproj": {
+    "C:\\Users\\Ido\\Documents\\GitHub\\Advanced2_New\\WebApp\\Services\\Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ido\\Documents\\GitHub\\backup\\Advanced2_New\\WebApp\\Services\\Services.csproj",
+        "projectUniqueName": "C:\\Users\\Ido\\Documents\\GitHub\\Advanced2_New\\WebApp\\Services\\Services.csproj",
         "projectName": "Services",
-        "projectPath": "C:\\Users\\Ido\\Documents\\GitHub\\backup\\Advanced2_New\\WebApp\\Services\\Services.csproj",
+        "projectPath": "C:\\Users\\Ido\\Documents\\GitHub\\Advanced2_New\\WebApp\\Services\\Services.csproj",
         "packagesPath": "C:\\Users\\Ido\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ido\\Documents\\GitHub\\backup\\Advanced2_New\\WebApp\\Services\\obj\\",
+        "outputPath": "C:\\Users\\Ido\\Documents\\GitHub\\Advanced2_New\\WebApp\\Services\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Ido\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -160,11 +160,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\Ido\\Documents\\GitHub\\backup\\Advanced2_New\\WebApp\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\Ido\\Documents\\GitHub\\backup\\Advanced2_New\\WebApp\\Domain\\Domain.csproj"
+              "C:\\Users\\Ido\\Documents\\GitHub\\Advanced2_New\\WebApp\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\Ido\\Documents\\GitHub\\Advanced2_New\\WebApp\\Domain\\Domain.csproj"
               },
-              "C:\\Users\\Ido\\Documents\\GitHub\\backup\\Advanced2_New\\WebApp\\Repository\\Repository.csproj": {
-                "projectPath": "C:\\Users\\Ido\\Documents\\GitHub\\backup\\Advanced2_New\\WebApp\\Repository\\Repository.csproj"
+              "C:\\Users\\Ido\\Documents\\GitHub\\Advanced2_New\\WebApp\\Repository\\Repository.csproj": {
+                "projectPath": "C:\\Users\\Ido\\Documents\\GitHub\\Advanced2_New\\WebApp\\Repository\\Repository.csproj"
               }
             }
           }
