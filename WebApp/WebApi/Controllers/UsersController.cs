@@ -149,15 +149,18 @@ namespace WebApi.Controllers
 
         [HttpGet("contacts/{id}/messages")]
         [Authorize]
-        public async Task<IActionResult> GetMessages(string contact)
+        public async Task<IActionResult> GetMessages([Bind("id")] string id)
         {
             string username = getConnectedUser();
             if (username == null || await _service.Get(username) == null) return NotFound();
 
-            if (contact == null || await _service.GetContact(username, contact) == null) return NotFound();
-
-
-            return Ok(await _service.GetMessages(username, contact));
+            if (id == null || await _service.GetContact(username, id) == null) return NotFound();
+            List<Message> msgs = await _service.GetMessages(username, id);
+            if (msgs == null)
+            {
+                return Ok(msgs);
+            }
+            return Ok(msgs);
         }
 
         [HttpPost("contacts/{id}/messages")]

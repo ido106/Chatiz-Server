@@ -161,7 +161,7 @@ namespace Services
         public async Task<Message> GetLast(string username, string contact)
         {
             Contact c = await GetContact(username, contact);
-            if (username == null || contact == null || await Get(username) == null ||  c == null)
+            if (username == null || contact == null || await Get(username) == null ||  c == null || c.Messages.Count == 0)
             {
                 return null;
             }
@@ -192,16 +192,10 @@ namespace Services
             if (await Get(username) == null) return false;
             Contact c = await GetContact(username, contacat);
             if (c == null) return false;
-            int id = 1;
-            if (c.Messages.Count != 0)
-            {
-                id = c.Messages.Max(x => x.Id) + 1;
-            }
-            
+
 
             //Message message = new(id, "text", data, isMine);
             Message message = new();
-            message.Id = id;
             message.Type = "text";
             message.Data = data;
             message.IsMine = isMine;
@@ -210,6 +204,8 @@ namespace Services
             //_context.Message.Add(message);
             c.Messages.Add(message);
             c.LastMessage = data;
+            _context.Add(message);
+            _context.Update(c);
             await _context.SaveChangesAsync();
 
             return true;
