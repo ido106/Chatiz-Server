@@ -5,16 +5,17 @@ namespace Domain
 {
     public class Contact
     {
-        [Key]
         [Required]
-        public string ContactUsername { get; set; }
-
-        /*[Key]
+        [Key]
+        [JsonIgnore]
+        public int IdContact { get; set; }
+        [Required]
+        public string Id { get; set; }
         [Required]
         [JsonIgnore]
-        public string TalkingTo { get; set; }*/
+        public string TalkingTo { get; set; }
 
-        public string Nickname { get; set; }
+        public string Name { get; set; }
 
         public string  Server { get; set; }
 

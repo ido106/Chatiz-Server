@@ -21,8 +21,13 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("Domain.Contact", b =>
                 {
-                    b.Property<string>("ContactUsername")
-                        .HasColumnType("varchar(255)");
+                    b.Property<int>("IdContact")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Id")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ImgSrc")
                         .HasColumnType("longtext");
@@ -33,16 +38,20 @@ namespace Repository.Migrations
                     b.Property<DateTime>("LastSeen")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Nickname")
+                    b.Property<string>("Name")
                         .HasColumnType("longtext");
 
                     b.Property<string>("Server")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("TalkingTo")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Username")
                         .HasColumnType("varchar(255)");
 
-                    b.HasKey("ContactUsername");
+                    b.HasKey("IdContact");
 
                     b.HasIndex("Username");
 
@@ -55,8 +64,8 @@ namespace Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("ContactUsername")
-                        .HasColumnType("varchar(255)");
+                    b.Property<int?>("ContactIdContact")
+                        .HasColumnType("int");
 
                     b.Property<string>("Data")
                         .IsRequired()
@@ -74,7 +83,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ContactUsername");
+                    b.HasIndex("ContactIdContact");
 
                     b.ToTable("Message");
                 });
@@ -117,7 +126,7 @@ namespace Repository.Migrations
                 {
                     b.HasOne("Domain.Contact", null)
                         .WithMany("Messages")
-                        .HasForeignKey("ContactUsername");
+                        .HasForeignKey("ContactIdContact");
                 });
 
             modelBuilder.Entity("Domain.Contact", b =>

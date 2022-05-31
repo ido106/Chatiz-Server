@@ -16,7 +16,7 @@ namespace Repository
         //{
         //}
 
-        private const string connectionString = "Server=localhost;Port=3306;Database=WebAppDB;User=root;Password=iddo";
+        private const string connectionString = "Server=localhost;Port=3306;Database=WebAppDB;User=root;Password=2056";
 
         /**
         public WebAppContext()
@@ -46,8 +46,9 @@ namespace Repository
             modelBuilder.Entity<User>().HasMany(u => u.Contacts);
             //modelBuilder.Entity<User>().HasMany(u => u.Contacts).WithOne(c => c.User).HasForeignKey(c => c.ContactUsername);
 
-
-            modelBuilder.Entity<Contact>().HasKey(c => c.ContactUsername);
+            modelBuilder.Entity<Contact>()
+            .Property(s => s.IdContact).IsRequired();
+            modelBuilder.Entity<Contact>().HasKey(c => c.IdContact);
             //modelBuilder.Entity<Contact>().HasOne(c => c.User).WithMany(u => u.Contacts).HasForeignKey(c => c.ContactUsername);
             modelBuilder.Entity<Contact>().HasMany(c => c.Messages);
 

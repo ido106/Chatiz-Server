@@ -162,12 +162,13 @@ namespace WebApi.Controllers
 
         [HttpPost("contacts/{id}/messages")]
         [Authorize]
-        public async Task<IActionResult> AddMessage(string contact, [FromBody] JsonElement json)
+        public async Task<IActionResult> AddMessage([Bind("id")] string id, [FromBody] JsonElement json)
         {
+
             string username = getConnectedUser();
             if (username == null || await _service.Get(username) == null) return NotFound();
 
-            if (contact == null || await _service.GetContact(username, contact) == null) return NotFound();
+            if (id == null || await _service.GetContact(username, id) == null) return NotFound();
 
             string content;
             try
@@ -178,7 +179,7 @@ namespace WebApi.Controllers
                 return BadRequest(e.Message);
             }
 
-            await _service.AddMessage(username, contact, content);
+            await _service.AddMessage(username, id, content);
             return StatusCode(201);
         }
 

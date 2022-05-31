@@ -28,7 +28,7 @@ namespace Services
         public async Task<User> Get(string username)
         {
             if (username == null) return null;
-            return  await _context.User.FirstOrDefaultAsync(x => x.Username == username);
+            return  await _context.User.Include(x => x.Contacts).FirstOrDefaultAsync(u => u.Username.Equals(username));
         }
 
         public async Task Add(User user)
@@ -48,10 +48,8 @@ namespace Services
 
         public async Task<List<Contact>> GetContacts(string username)
         {
-            if (username == null) return null;
-            User user = await Get(username);
-            if (user == null) return null;
-            return user.Contacts;
+            return await _context.Contact.Include(c => c.Messages).Where(c => c.TalkingTo.Equals(username)).ToListAsync();
+  
         }
 
         public async Task<Contact> GetContact(string username, string contact_name)
@@ -60,7 +58,7 @@ namespace Services
 
             List<Contact> all_contacts = await GetContacts(username);
             if (all_contacts == null) return null;
-            Contact contact = all_contacts.FirstOrDefault(x => x.ContactUsername == contact_name);
+            Contact contact = all_contacts.FirstOrDefault(x => x.Id == contact_name);
             return contact;
         }
         /*public async Task<List<Message>> GetContactMsgs(string username, string contact_name)
@@ -89,8 +87,9 @@ namespace Services
 
             //Contact contact = new (contact_name, contact_user);
             Contact contact = new();
-            contact.ContactUsername = contact_name;
-            contact.Nickname = contact_nickname;
+            contact.TalkingTo = username;
+            contact.Id = contact_name;
+            contact.Name = contact_nickname;
             contact.Server = contact_server;
             contact.LastSeen = DateTime.Now;
 
@@ -131,7 +130,7 @@ namespace Services
             if(c == null) return false;
 
             c.Server = server;
-            c.Nickname = nickname;
+            c.Name = nickname;
 
             _context.Update(c);
             await _context.SaveChangesAsync();
@@ -193,7 +192,12 @@ namespace Services
             if (await Get(username) == null) return false;
             Contact c = await GetContact(username, contacat);
             if (c == null) return false;
-            int id = c.Messages.Max(x => x.Id) + 1;
+            int id = 1;
+            if (c.Messages.Count != 0)
+            {
+                id = c.Messages.Max(x => x.Id) + 1;
+            }
+            
 
             //Message message = new(id, "text", data, isMine);
             Message message = new();
@@ -206,7 +210,6 @@ namespace Services
             //_context.Message.Add(message);
             c.Messages.Add(message);
             c.LastMessage = data;
-            _context.Update(c);
             await _context.SaveChangesAsync();
 
             return true;
