@@ -57,6 +57,7 @@ namespace Services
         public async Task<Contact> GetContact(string username, string contact_name)
         {
             if (username == null || contact_name == null) return null;
+
             List<Contact> all_contacts = await GetContacts(username);
             if (all_contacts == null) return null;
             Contact contact = all_contacts.FirstOrDefault(x => x.ContactUsername == contact_name);
@@ -76,10 +77,12 @@ namespace Services
 
             User user = await Get(username);
             if(user == null) return false;
+
+
             Contact c = await GetContact(username, contact_name);
             if (c != null) return false;
 
-            if (user.Contacts == null) user.Contacts = new List<Contact>();
+            if (await GetContacts(username) == null) user.Contacts = new List<Contact>();
 
             /*User contact_user = await Get(contact_name);
             if (contact_user == null) return false;*/
@@ -97,7 +100,7 @@ namespace Services
             //_context.Contact.Add(contact);
             // TODO are we sure that the contacts are updated also on the DB ?
             user.Contacts.Add(contact);
-            _context.Update(user);
+            //_context.Update(user);
             
             await _context.SaveChangesAsync();
             return true;

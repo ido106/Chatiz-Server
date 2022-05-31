@@ -9,6 +9,11 @@ namespace Domain
         [Required]
         public string ContactUsername { get; set; }
 
+        /*[Key]
+        [Required]
+        [JsonIgnore]
+        public string TalkingTo { get; set; }*/
+
         public string Nickname { get; set; }
 
         public string  Server { get; set; }
