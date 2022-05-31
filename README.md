@@ -19,7 +19,7 @@
 
 <br/>MariaDB
 
-<br/>**CLONE INTO THE REPOSITORY**
+<br/>**CLONE INTO THE REPOSITORY:**
 git clone https://github.com/ido106/Advanced2_New.git
 
 <br/>**RUN**
