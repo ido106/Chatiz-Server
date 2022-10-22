@@ -65,5 +65,7 @@ You can also use the browser chat which is synchronized with the server.
 ## Screenshots
 *For screenshots of the client side visit the [first part](https://github.com/ido106/Chatiz_Browser).*
 
+### Swagger Requests List
+![server requests list](https://user-images.githubusercontent.com/92651125/197361683-ce7c4aaf-16c1-4fef-8172-5a164a23a197.png)
 
 ## **Enjoy	:smile:**
