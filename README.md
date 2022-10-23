@@ -22,7 +22,7 @@ The project is divided into 3 parts:
  2. **Server Side** in ASP.NET core (C#) with a MariaDB connection. [link](https://github.com/ido106/Chatiz_Server)
  3. Android side in Java. [link](https://github.com/ido106/Chatiz_Android)  
 
-As marked, in this part I will show the **server** side.  
+As marked, in this part I will show the **server** side in **ASP.NET core (C#)**.  
 Compared to the first part, we will have to ask the server for the data (users, messages, contacts, etc.) in the client side (browser), therefore we will have to change the hard-coded requests to **server requests**. At the same time, the design of the browser has not changed. Thus, we will take the client side from [part 1 repository](https://github.com/ido106/Chatiz_Browser), under the branch '*develop*'. The server side is stored in this repository.
 
 The server side implements a **[RESTful api](https://en.wikipedia.org/wiki/Representational_state_transfer)** in ASP.NET core MVC form.  
