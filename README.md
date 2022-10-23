@@ -48,7 +48,7 @@ In order for the requests to work, first you need to create and connect to a new
  8. Run the WebApi.
  9. Enjoy !
 
-### Using The Browser Chat
+### Using ***Chatiz*** on the browser
 You can also use the browser chat which is synchronized with the server.
 
  1. Download and install [Node.JS](https://nodejs.org/en/download/) .
